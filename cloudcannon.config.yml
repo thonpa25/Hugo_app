@@ -1,11 +1,12 @@
 _schema: _schema
 source: hugo-site
 paths:
-  uploads: static/uploads
-  static: static
+  uploads: hugo-site/static/uploads
+  static: hugo-site/static
 build:
-  command: hugo --gc --minify
-  output: public
+  source: hugo-site
+  command: cd hugo-site && hugo --gc --minify
+  output: hugo-site/public
 collections_config:
   pages:
     path: ''
