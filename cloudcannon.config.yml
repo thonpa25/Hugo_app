@@ -1,0 +1,98 @@
+_schema: _schema
+source: /hugo-site/
+paths:
+  uploads: static/uploads
+  static: static
+collections_config:
+  pages:
+    path: ''
+    name: Pages
+    icon: wysiwyg
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  content:
+    path: content
+    glob:
+      - '!_index.md'
+    name: Content
+    icon: wysiwyg
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  data_1:
+    path: _data
+    glob:
+      - '!_index.md'
+    name: Data 1
+    icon: dataset
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  docs:
+    path: docs
+    glob:
+      - '!_index.md'
+    name: Docs
+    icon: docs
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  i18n:
+    path: i18n
+    glob:
+      - '!_index.md'
+    name: I18n
+    icon: iron
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  structures:
+    path: _structures
+    glob:
+      - '!_index.md'
+    name: Structures
+    icon: signature
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  data:
+    path: data
+    glob:
+      - '!_index.md'
+    name: Data
+    icon: data_usage
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+_snippets_imports:
+  hugo:
+    exclude:
+      - hugo_instagram
+timezone: Africa/Cairo
+markdown:
+  engine: commonmark
+  options:
+    xhtml: false
+    breaks: false
+    linkify: false
+    typographer: false
+    spaced_lists: false
+    sentence_per_line: false
+    gfm: true
+    code_block_fences: '```'
+    escape_snippets_in_code_blocks: false
+    treat_indentation_as_code: true
+    table: false
+    strikethrough: false
+    subscript: false
+    superscript: false
+    heading_ids: false
+    attributes: false
