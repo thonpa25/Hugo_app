@@ -54,149 +54,30 @@ social_media:
     url: "https://facebook.com/yourcompany"
 ---
 
-## Get In Touch
+## Additional Information
 
-We're here to help and answer any question you might have. We look forward to hearing from you! Whether you have a question about features, pricing, need a demo, or anything else, our team is ready to answer all your questions.
+### Why Choose Us?
 
-### Quick Contact Options
+We pride ourselves on providing exceptional customer service and personalized solutions. Our team of experts is committed to understanding your unique needs and delivering results that exceed your expectations.
 
-<div class="row mb-5">
-  <div class="col-md-4 mb-3">
-    <div class="contact-method text-center p-4 h-100 border rounded">
-      <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
-      <h4>Email Us</h4>
-      <p class="text-muted">For general inquiries and detailed questions</p>
-      <a href="mailto:{{ .Params.contact_info.email }}" class="btn btn-outline-primary">
-        {{ .Params.contact_info.email }}
-      </a>
-    </div>
-  </div>
-  
-  <div class="col-md-4 mb-3">
-    <div class="contact-method text-center p-4 h-100 border rounded">
-      <i class="fas fa-phone fa-3x text-primary mb-3"></i>
-      <h4>Call Us</h4>
-      <p class="text-muted">For urgent matters and direct support</p>
-      <a href="tel:{{ .Params.contact_info.phone }}" class="btn btn-outline-primary">
-        {{ .Params.contact_info.phone }}
-      </a>
-    </div>
-  </div>
-  
-  <div class="col-md-4 mb-3">
-    <div class="contact-method text-center p-4 h-100 border rounded">
-      <i class="fas fa-clock fa-3x text-primary mb-3"></i>
-      <h4>Business Hours</h4>
-      <p class="text-muted">When you can reach us directly</p>
-      <div class="small">
-        {{ .Params.contact_info.hours | markdownify }}
-      </div>
-    </div>
-  </div>
-</div>
+### Response Time
 
-### Send Us a Message
+We understand that your time is valuable. That's why we've committed to responding to all inquiries within 24 hours during business days. For urgent matters that require immediate attention, we encourage you to call us directly during business hours.
 
-{{< contact-form destination="dan@theonlinepart.com" subject="Contact Form - Website Inquiry" recaptcha="true" >}}
+### Service Areas
 
-### Find Us
+While our main office is located in the business district, we proudly serve clients throughout the region. We also offer remote consultations and digital services to accommodate clients regardless of their location.
 
-{{ if .Params.map.enabled }}
-<div class="row mt-5">
-  <div class="col-md-8">
-    {{< google-map address=.Params.map.address zoom=.Params.map.zoom style=.Params.map.style show-controls=.Params.map.show_controls >}}
-    Visit us at our office located in the heart of the business district. We're easily accessible by public transportation and have parking available.
-    {{< /google-map >}}
-  </div>
-  
-  <div class="col-md-4">
-    <div class="office-info p-4 bg-light rounded h-100">
-      <h4><i class="fas fa-map-marker-alt me-2 text-primary"></i>Office Address</h4>
-      <address class="mb-4">
-        {{ .Params.contact_info.address | markdownify }}
-      </address>
-      
-      <h5><i class="fas fa-directions me-2 text-primary"></i>Getting Here</h5>
-      <ul class="list-unstyled small">
-        <li class="mb-2"><i class="fas fa-subway me-2 text-muted"></i>Metro: Green Line to Business Station</li>
-        <li class="mb-2"><i class="fas fa-bus me-2 text-muted"></i>Bus: Routes 12, 34, 56</li>
-        <li class="mb-2"><i class="fas fa-car me-2 text-muted"></i>Parking: Available in building garage</li>
-        <li class="mb-2"><i class="fas fa-wheelchair me-2 text-muted"></i>Accessible entrance on main floor</li>
-      </ul>
-      
-      <a href="https://www.google.com/maps/search/{{ .Params.map.address | urlquery }}" 
-         target="_blank" 
-         class="btn btn-primary btn-sm">
-        <i class="fas fa-external-link-alt me-1"></i>
-        Open in Google Maps
-      </a>
-    </div>
-  </div>
-</div>
-{{ end }}
+### What to Expect
 
-### Connect With Us
+When you contact us, here's what you can expect:
 
-<div class="row mt-5">
-  <div class="col-12">
-    <div class="text-center p-4 bg-light rounded">
-      <h4 class="mb-3">Follow Us on Social Media</h4>
-      <p class="text-muted mb-4">Stay updated with our latest news and updates</p>
-      
-      <div class="social-links">
-        {{ range .Params.social_media }}
-        <a href="{{ .url }}" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="btn btn-outline-primary me-3 mb-2"
-           aria-label="{{ .name }}">
-          <i class="{{ .icon }} me-2"></i>{{ .name }}
-        </a>
-        {{ end }}
-      </div>
-    </div>
-  </div>
-</div>
+- **Initial Response**: You'll receive an acknowledgment of your inquiry within 24 hours
+- **Consultation**: We'll schedule a consultation to discuss your specific needs
+- **Proposal**: Based on our discussion, we'll provide a detailed proposal
+- **Implementation**: Once approved, we'll begin working on your project
+- **Support**: Ongoing support and communication throughout the process
 
-### Frequently Asked Questions
+### Privacy & Security
 
-<div class="accordion mt-5" id="contactFAQ">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="faq1">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-        How quickly do you respond to inquiries?
-      </button>
-    </h2>
-    <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="faq1" data-bs-parent="#contactFAQ">
-      <div class="accordion-body">
-        We typically respond to all inquiries within 24 hours during business days (Monday-Friday). For urgent matters, please call us directly during business hours for immediate assistance.
-      </div>
-    </div>
-  </div>
-  
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="faq2">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-        What information should I include in my message?
-      </button>
-    </h2>
-    <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#contactFAQ">
-      <div class="accordion-body">
-        Please provide as much detail as possible about your inquiry, including your timeline, budget (if applicable), and any specific requirements. This helps us provide you with the most accurate and helpful response.
-      </div>
-    </div>
-  </div>
-  
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="faq3">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-        Do you offer consultations?
-      </button>
-    </h2>
-    <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#contactFAQ">
-      <div class="accordion-body">
-        Yes! We offer free initial consultations to discuss your needs and how we can help. You can schedule a consultation by filling out our contact form or calling us directly.
-      </div>
-    </div>
-  </div>
-</div>
+Your privacy is important to us. All information shared through our contact forms or during consultations is kept strictly confidential. We never share client information with third parties without explicit permission.
