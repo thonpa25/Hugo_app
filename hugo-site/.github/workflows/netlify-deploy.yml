@@ -1,0 +1,84 @@
+name: Automated Netlify Deployment
+
+on:
+  # Automatic deployment on push to main
+  push:
+    branches: [ main ]
+    paths:
+      - 'hugo-site/**'
+      - '.github/workflows/netlify-deploy.yml'
+  
+  # Manual deployment trigger
+  workflow_dispatch:
+    inputs:
+      deploy_message:
+        description: 'Deployment message'
+        required: false
+        default: 'Manual deployment triggered'
+  
+  # Scheduled deployment (optional - uncomment to enable)
+  # schedule:
+  #   - cron: '0 0 * * *'  # Daily at midnight UTC
+
+jobs:
+  deploy:
+    name: Build and Deploy to Netlify
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive  # Fetch Hugo themes
+        fetch-depth: 0  # Full history for .GitInfo
+    
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.129.0'
+        extended: true
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: hugo-site/package-lock.json
+    
+    - name: Install Dependencies
+      working-directory: ./hugo-site
+      run: |
+        npm ci --prefer-offline --no-audit
+    
+    - name: Build Hugo Site
+      working-directory: ./hugo-site
+      run: |
+        hugo --gc --minify
+      env:
+        HUGO_ENVIRONMENT: production
+    
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: './hugo-site/public'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: ${{ github.event.inputs.deploy_message || 'Automated deployment from GitHub Actions' }}
+        enable-pull-request-comment: true
+        enable-commit-comment: false
+        overwrites-pull-request-comment: true
+        alias: deploy-${{ github.run_number }}
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      timeout-minutes: 5
+    
+    - name: Deployment Status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Deployment successful!"
+          echo "🔗 Site URL: https://your-site.netlify.app"
+        else
+          echo "❌ Deployment failed. Check the logs above."
+        fi

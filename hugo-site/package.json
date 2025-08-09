@@ -6,7 +6,14 @@
     "dev": "hugo server -D",
     "build": "hugo --minify",
     "clean": "rm -rf public resources",
-    "deploy": "hugo --minify && netlify deploy --prod --dir=public"
+    "deploy": "hugo --minify && netlify deploy --prod --dir=public",
+    "deploy:preview": "hugo --minify && netlify deploy --dir=public",
+    "deploy:manual": "node scripts/deploy.js",
+    "netlify:dev": "netlify dev",
+    "netlify:login": "netlify login",
+    "netlify:link": "netlify link",
+    "netlify:status": "netlify status",
+    "netlify:open": "netlify open"
   },
   "keywords": [
     "hugo",

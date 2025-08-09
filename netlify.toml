@@ -2,7 +2,7 @@
   # Build from hugo-site subdirectory
   base = "hugo-site"
   command = "hugo --gc --minify"
-  publish = "hugo-site/public"
+  publish = "public"
 
   # Hugo version (specify to ensure consistency)
   [build.environment]
