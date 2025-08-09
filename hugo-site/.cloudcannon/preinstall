@@ -1,7 +1,7 @@
 #!/bin/bash
-# CloudCannon preinstall script to fix theme naming issue
+# CloudCannon preinstall script
 
-echo "CloudCannon Preinstall: Setting up theme..."
+echo "CloudCannon Preinstall: Verifying theme..."
 
 # Navigate to source directory
 cd /usr/local/__site/src/ || exit 1
@@ -12,17 +12,13 @@ if [ ! -d "themes" ]; then
     exit 1
 fi
 
-# If bigspring exists but bigspring-light doesn't, create a symbolic link
-if [ -d "themes/bigspring" ] && [ ! -d "themes/bigspring-light" ]; then
-    echo "Creating symbolic link from bigspring to bigspring-light..."
-    ln -s bigspring themes/bigspring-light
-    echo "Symbolic link created successfully"
-elif [ -d "themes/bigspring" ] && [ -d "themes/bigspring-light" ]; then
-    echo "Both theme directories exist, using bigspring-light"
-elif [ ! -d "themes/bigspring" ] && [ ! -d "themes/bigspring-light" ]; then
-    echo "ERROR: No theme found in themes directory!"
+# Check if bigspring theme exists
+if [ -d "themes/bigspring" ]; then
+    echo "Theme 'bigspring' verified successfully"
+else
+    echo "ERROR: Theme 'bigspring' not found!"
     ls -la themes/
     exit 1
 fi
 
-echo "Theme setup complete!"
+echo "Theme verification complete!"

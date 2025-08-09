@@ -5,22 +5,16 @@
 echo "Starting CloudCannon prebuild process..."
 
 # Explicitly set the Hugo theme
-export HUGO_THEME=bigspring-light
-
-# Ensure the theme is available with the expected name
-if [ -d "themes/bigspring" ] && [ ! -e "themes/bigspring-light" ]; then
-    echo "Creating link from bigspring to bigspring-light..."
-    cd themes && ln -s bigspring bigspring-light && cd ..
-fi
+export HUGO_THEME=bigspring
 
 # Check theme directory
-if [ ! -e "themes/bigspring-light" ]; then
-    echo "ERROR: Theme 'bigspring-light' not found in themes directory"
+if [ ! -d "themes/bigspring" ]; then
+    echo "ERROR: Theme 'bigspring' not found in themes directory"
     echo "Available themes:"
     ls -la themes/
     exit 1
 else
-    echo "Theme 'bigspring-light' ready"
+    echo "Theme 'bigspring' found successfully"
 fi
 
 # Install Node.js dependencies if needed
