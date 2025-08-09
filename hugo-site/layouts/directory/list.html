@@ -52,8 +52,9 @@
           {{ if .featured }}
           <div class="ribbon">Featured</div>
           {{ end }}
+          {{ $itemName := .name }}
           {{ with .images.featured }}
-          <img src="{{ . }}" class="card-img-top" alt="{{ $.name }}">
+          <img src="{{ . }}" class="card-img-top" alt="{{ $itemName }}">
           {{ end }}
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
@@ -75,8 +76,9 @@
             {{ with .ratings }}
             {{ if gt .average 0 }}
             <div class="rating mb-2">
+              {{ $rating := int .average }}
               {{ range $i := seq 1 5 }}
-                {{ if le $i (int $.average) }}
+                {{ if le $i $rating }}
                 <i class="fas fa-star text-warning small"></i>
                 {{ else }}
                 <i class="far fa-star text-warning small"></i>
