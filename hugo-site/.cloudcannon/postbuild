@@ -1,0 +1,25 @@
+#!/bin/bash
+# CloudCannon postbuild script for Hugo Bigspring theme
+# This script runs after the build process
+
+echo "Starting CloudCannon postbuild process..."
+
+# Optimize images if imagemin is available
+if command -v imagemin &> /dev/null; then
+    echo "Optimizing images..."
+    find public -name "*.jpg" -o -name "*.png" | head -20 | xargs -I {} imagemin {} --out-dir={}
+fi
+
+# Generate sitemap if not already present
+if [ ! -f "public/sitemap.xml" ]; then
+    echo "Sitemap not found - Hugo should have generated one"
+fi
+
+# Ensure proper permissions
+chmod -R 755 public/
+
+# Clean up any temporary files
+find public -name ".DS_Store" -delete 2>/dev/null || true
+find public -name "Thumbs.db" -delete 2>/dev/null || true
+
+echo "Postbuild process completed successfully!"

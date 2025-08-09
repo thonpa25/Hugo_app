@@ -1,0 +1,81 @@
+<!-- Critical Bootstrap scripts -->
+{{ $bootstrap := resources.Get "js/bootstrap.js" }}
+{{ $params := dict }}
+{{ $sourceMap := cond hugo.IsProduction "" "inline" }}
+{{ $opts := dict "sourceMap" $sourceMap "target" "es2018" "params" $params }}
+{{ $bootstrap = $bootstrap | js.Build $opts }}
+{{ if hugo.IsProduction }}
+{{ $bootstrap = $bootstrap | fingerprint "sha512" }}
+{{ end }}
+<script crossorigin="anonymous" defer {{ if hugo.IsProduction }} integrity="{{ $bootstrap.Data.Integrity }}"{{end}} type="application/javascript">{{$bootstrap.Content | safeJS}}</script>
+
+<!-- Modern App Loader (ES2018+) -->
+{{ $app := resources.Get "js/app.js" }}
+{{ $appOpts := dict "sourceMap" $sourceMap "target" "es2018" "params" $params "format" "esm" }}
+{{ $app = $app | js.Build $appOpts }}
+{{ if hugo.IsProduction }}
+{{ $app = $app | fingerprint "sha512" }}
+{{ end }}
+<script type="module" crossorigin="anonymous" defer {{ if hugo.IsProduction }} integrity="{{ $app.Data.Integrity }}"{{end}} src="{{ $app.RelPermalink }}"></script>
+
+<!-- Legacy fallback for older browsers -->
+<script nomodule>
+  // Legacy browser fallback
+  console.warn('Using legacy browser fallback');
+  
+  {{ $legacyScripts := slice }}
+  {{ range site.Params.plugins.js }}
+    {{ if findRE "^http" .link }}
+      {{ $legacyScripts = $legacyScripts | append .link }}
+    {{ else }}
+      {{ $legacyScripts = $legacyScripts | append (resources.Get .link) }}
+    {{ end }}
+  {{ end }}
+  
+  {{ $legacyScripts = $legacyScripts | append (resources.Get "js/script.js") }}
+  {{ $legacyScripts = $legacyScripts | append (resources.Get "js/directory-search.js") }}
+  
+  // Load scripts sequentially for legacy browsers
+  {{ range $legacyScripts }}
+    {{ if findRE "^http" . }}
+      document.write('<script src="{{ . }}"><\/script>');
+    {{ else }}
+      {{ $legacy := . | resources.Concat "js/legacy.js" }}
+      {{ if hugo.IsProduction }}
+        {{ $legacy = $legacy | minify | fingerprint }}
+      {{ end }}
+      document.write('<script src="{{ $legacy.RelPermalink }}"><\/script>');
+    {{ end }}
+  {{ end }}
+</script>
+
+<!-- External JS Plugins -->
+{{ range site.Params.plugins.js }}
+  {{ if findRE "^http" .link }}
+    <script src="{{ .link | relURL }}" type="application/javascript" {{.attributes | safeHTMLAttr}} defer></script>
+  {{ end }}
+{{ end }}
+
+
+<!-- font family -->
+{{$pf:= site.Params.variables.font_primary}}
+{{$sf:= site.Params.variables.font_secondary}}
+<script type="application/javascript">
+  WebFont.load({
+    google: {
+      api: 'https://fonts.googleapis.com/css2',
+      families: ['{{$pf | default `Lato:wght@400`}}{{if not $sf}}&display=swap{{end}}'{{with $sf}},'{{. | default `Lato:wght@400`}}&display=swap'{{end}}],
+      version: 2
+    },
+    active: () => {sessionStorage.fontsLoaded = true}
+  });
+</script>
+
+<!-- progressive web app -->
+{{ partialCached "pwa.html" . }}
+
+<!-- cookie consent -->
+{{ partialCached "cookie-consent.html" . }}
+
+<!-- google adsense -->
+{{ partialCached "adsense-script.html" . }}

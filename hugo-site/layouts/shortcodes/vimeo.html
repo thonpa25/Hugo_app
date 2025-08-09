@@ -1,0 +1,339 @@
+{{/* Vimeo Video Embed Shortcode */}}
+{{/* Usage Examples:
+     {{< vimeo id="123456789" >}}
+     {{< vimeo id="123456789" title="My Vimeo Video" >}}
+     {{< vimeo id="123456789" autoplay="true" loop="true" >}}
+     {{< vimeo url="https://vimeo.com/123456789" >}}
+*/}}
+
+{{ $id := .Get "id" }}
+{{ $url := .Get "url" }}
+{{ $title := .Get "title" | default "Vimeo Video" }}
+{{ $width := .Get "width" | default "100%" }}
+{{ $height := .Get "height" | default "315" }}
+{{ $autoplay := .Get "autoplay" | default "false" }}
+{{ $muted := .Get "muted" | default "false" }}
+{{ $loop := .Get "loop" | default "false" }}
+{{ $color := .Get "color" | default "00adef" }}
+{{ $portrait := .Get "portrait" | default "true" }}
+{{ $byline := .Get "byline" | default "true" }}
+{{ $title_show := .Get "title_show" | default "true" }}
+{{ $speed := .Get "speed" | default "false" }}
+{{ $transparent := .Get "transparent" | default "false" }}
+{{ $responsive := .Get "responsive" | default "true" }}
+{{ $loading := .Get "loading" | default "lazy" }}
+
+{{/* Extract video ID from URL if provided */}}
+{{ if and $url (not $id) }}
+  {{ $urlParts := split $url "/" }}
+  {{ if gt (len $urlParts) 0 }}
+    {{ $lastPart := index $urlParts (sub (len $urlParts) 1) }}
+    {{ $id = index (split $lastPart "?") 0 }}
+  {{ end }}
+{{ end }}
+
+{{ if not $id }}
+  <div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Vimeo Shortcode Error:</strong> No video ID provided. Please provide either an 'id' or 'url' parameter.
+  </div>
+{{ else }}
+
+{{/* Build embed parameters */}}
+{{ $params := slice }}
+
+{{ if eq $autoplay "true" }}{{ $params = $params | append "autoplay=1" }}{{ end }}
+{{ if eq $muted "true" }}{{ $params = $params | append "muted=1" }}{{ end }}
+{{ if eq $loop "true" }}{{ $params = $params | append "loop=1" }}{{ end }}
+{{ if ne $color "00adef" }}{{ $params = $params | append (printf "color=%s" $color) }}{{ end }}
+{{ if eq $portrait "false" }}{{ $params = $params | append "portrait=0" }}{{ end }}
+{{ if eq $byline "false" }}{{ $params = $params | append "byline=0" }}{{ end }}
+{{ if eq $title_show "false" }}{{ $params = $params | append "title=0" }}{{ end }}
+{{ if eq $speed "true" }}{{ $params = $params | append "speed=1" }}{{ end }}
+{{ if eq $transparent "true" }}{{ $params = $params | append "transparent=1" }}{{ end }}
+
+{{/* Build embed URL */}}
+{{ $embedUrl := printf "https://player.vimeo.com/video/%s" $id }}
+{{ if $params }}{{ $embedUrl = printf "%s?%s" $embedUrl (delimit $params "&") }}{{ end }}
+
+{{/* Build thumbnail URL (Vimeo API would be needed for actual thumbnails) */}}
+{{ $thumbnailUrl := printf "https://vumbnail.com/%s.jpg" $id }}
+
+<div class="vimeo-video-container" data-video-id="{{ $id }}">
+  <!-- Video Loading Placeholder with Thumbnail -->
+  <div class="video-loading-placeholder" id="vimeo-loading-{{ $id }}-{{ now.Unix }}" onclick="loadVimeoVideo(this)">
+    <div class="video-thumbnail" style="background-image: url('{{ $thumbnailUrl }}');">
+      <div class="video-overlay">
+        <div class="play-button">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="40" fill="rgba(255, 255, 255, 0.9)"/>
+            <circle cx="40" cy="40" r="35" fill="#00adef"/>
+            <polygon points="32,28 32,52 56,40" fill="white"/>
+          </svg>
+        </div>
+        <div class="video-title">{{ $title }}</div>
+        <div class="vimeo-brand">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M23.9765 6.4168c-.105 2.338-.8568 5.2678-2.2539 8.7863-1.4649 3.6247-2.7019 5.4372-3.7104 5.4372-.6289 0-1.1601-1.1601-1.5943-3.4802-.3989-2.1488-.7977-4.2975-1.1966-6.4463-.4657-2.3141-1.0608-3.4711-1.7863-3.4711-.139 0-.6289.2927-1.4698.8784l-.8784-.8784c.9221-.8784 1.8302-1.7568 2.7233-2.6352 1.2263-1.0608 2.1439-1.6209 2.7519-1.6799.7418-.0590 1.1966.4348 1.3645 1.4838.1828 1.1471.3089 1.8642.3789 2.1509.2138 1.6139.4527 2.4199.7168 2.4199.1969 0.591-.9311 1.7728-2.7968-1.1131 1.5943-1.8302 2.4369-2.7968 2.5258-2.8968.1309-.2138.3608-.3199.6839-.3199.8784 0 1.1131 1.5943 1.1131 2.6971z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Loading State -->
+    <div class="video-loading d-none">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading video...</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Vimeo Embed (loaded on demand) -->
+  <div class="vimeo-embed-wrapper d-none">
+    <iframe
+      class="vimeo-embed"
+      src="about:blank"
+      data-src="{{ $embedUrl | safeURL }}"
+      width="{{ $width }}"
+      height="{{ $height }}"
+      title="{{ $title }}"
+      frameborder="0"
+      loading="{{ $loading }}"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  
+  <!-- Video Information -->
+  {{ with .Inner }}
+  <div class="video-info">
+    <div class="card">
+      <div class="card-body">
+        {{ . | markdownify }}
+      </div>
+    </div>
+  </div>
+  {{ end }}
+</div>
+
+<!-- Video Schema.org Markup for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "{{ $title }}",
+  "description": "{{ with .Inner }}{{ . | plainify | truncate 160 }}{{ else }}{{ $title }}{{ end }}",
+  "thumbnailUrl": "{{ $thumbnailUrl }}",
+  "uploadDate": "{{ now.Format "2006-01-02" }}",
+  "contentUrl": "{{ $embedUrl }}",
+  "embedUrl": "{{ $embedUrl }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vimeo",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://i.vimeocdn.com/logo/fb_logo.png"
+    }
+  }
+}
+</script>
+
+{{ end }}
+
+<!-- Vimeo Video Styles -->
+<style>
+.vimeo-video-container {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.vimeo-video-container .video-loading-placeholder {
+  position: relative;
+  cursor: pointer;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.vimeo-video-container .video-thumbnail {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #00adef;
+  position: relative;
+}
+
+.vimeo-video-container .video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 173, 239, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: background-color 0.3s ease;
+}
+
+.vimeo-video-container .video-loading-placeholder:hover .video-overlay {
+  background: rgba(0, 173, 239, 0.4);
+}
+
+.vimeo-video-container .play-button {
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  margin-bottom: 1rem;
+}
+
+.vimeo-video-container .video-loading-placeholder:hover .play-button {
+  transform: scale(1.1);
+}
+
+.vimeo-video-container .video-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 1rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.vimeo-video-container .vimeo-brand {
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.vimeo-video-container .video-loading-placeholder:hover .vimeo-brand {
+  opacity: 1;
+}
+
+.vimeo-video-container .video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.vimeo-embed-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.vimeo-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
+
+.vimeo-video-container .video-info {
+  margin-top: 1rem;
+}
+
+.vimeo-video-container .video-info .card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vimeo-video-container .video-title {
+    font-size: 1rem;
+    padding: 0 0.75rem;
+  }
+  
+  .vimeo-video-container .play-button svg {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .vimeo-video-container .video-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .vimeo-video-container .video-title {
+    text-shadow: 0 1px 0 #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .vimeo-video-container .play-button,
+  .vimeo-video-container .video-overlay,
+  .vimeo-video-container .vimeo-brand {
+    transition: none;
+  }
+}
+</style>
+
+<!-- Vimeo Video JavaScript -->
+<script>
+function loadVimeoVideo(placeholder) {
+  const container = placeholder.closest('.vimeo-video-container');
+  const embedWrapper = container.querySelector('.vimeo-embed-wrapper');
+  const iframe = container.querySelector('.vimeo-embed');
+  const loading = placeholder.querySelector('.video-loading');
+  
+  // Show loading state
+  loading.classList.remove('d-none');
+  
+  // Load the iframe
+  iframe.src = iframe.getAttribute('data-src');
+  
+  // Hide placeholder and show embed
+  setTimeout(() => {
+    placeholder.classList.add('d-none');
+    embedWrapper.classList.remove('d-none');
+  }, 500);
+}
+
+// Intersection Observer for lazy loading
+if ('IntersectionObserver' in window) {
+  document.addEventListener('DOMContentLoaded', function() {
+    const videoPlaceholders = document.querySelectorAll('.vimeo-video-container .video-loading-placeholder');
+    
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const placeholder = entry.target;
+          const thumbnail = placeholder.querySelector('.video-thumbnail');
+          const videoId = placeholder.closest('.vimeo-video-container').getAttribute('data-video-id');
+          
+          // Pre-load thumbnail image for better UX
+          const img = new Image();
+          img.onload = function() {
+            thumbnail.style.backgroundImage = `url(${this.src})`;
+          };
+          img.src = `https://vumbnail.com/${videoId}.jpg`;
+          
+          observer.unobserve(placeholder);
+        }
+      });
+    }, {
+      rootMargin: '50px'
+    });
+    
+    videoPlaceholders.forEach(placeholder => {
+      videoObserver.observe(placeholder);
+    });
+  });
+}
+</script>

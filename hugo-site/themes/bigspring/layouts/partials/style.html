@@ -1,0 +1,67 @@
+<!-- Performance Hints -->
+<meta http-equiv="x-dns-prefetch-control" content="on" />
+
+<!-- Critical Resource Preloads -->
+<link rel="preload" href="{{ (resources.Get "js/app.js").RelPermalink }}" as="script" />
+<link rel="preload" href="/assets/images/logo.png" as="image" />
+
+<!-- DNS Preconnect for Third-Party Resources -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.fontawesome.com" crossorigin />
+<link rel="preconnect" href="//ajax.googleapis.com" />
+<link rel="preconnect" href="//cdnjs.cloudflare.com" />
+<link rel="preconnect" href="//www.googletagmanager.com" />
+<link rel="preconnect" href="//www.google-analytics.com" />
+
+<!-- DNS Prefetch for Performance -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+<link rel="dns-prefetch" href="//use.fontawesome.com" />
+<link rel="dns-prefetch" href="//ajax.googleapis.com" />
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="//connect.facebook.net" />
+<link rel="dns-prefetch" href="//platform.linkedin.com" />
+<link rel="dns-prefetch" href="//platform.twitter.com" />
+
+<!-- Prefetch Important Pages -->
+{{ if .IsHome }}
+<link rel="prefetch" href="/directory/" />
+<link rel="prefetch" href="/contact/" />
+{{ end }}
+
+<!-- Preload Module Scripts for Directory Page -->
+{{ if or (eq .Section "directory") (.IsHome) }}
+<link rel="modulepreload" href="{{ (resources.Get "js/core/lazy-loader.js").RelPermalink }}" />
+<link rel="modulepreload" href="{{ (resources.Get "js/core/search-engine.js").RelPermalink }}" />
+{{ end }}
+
+<!-- plugins + stylesheet -->
+{{ $styles := slice }}
+{{ range site.Params.plugins.css }}
+  {{ if findRE "^http" .link }}
+    <link
+      crossorigin="anonymous"
+      media="all"
+      rel="stylesheet"
+      href="{{ .link | relURL }}"
+      {{ .attributes | safeHTMLAttr }} />
+  {{ else }}
+    {{ $styles = $styles | append (resources.Get .link) }}
+  {{ end }}
+{{ end }}
+{{ $styles := $styles | append (resources.Get "scss/style.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS) }}
+{{ $styles := $styles | resources.Concat "/css/style.css" }}
+
+
+<!-- Purge CSS in Production -->
+{{ if and hugo.IsProduction site.Params.purge_css }}
+  {{ $styles = $styles | css.PostCSS | fingerprint "sha256" }}
+  {{ $styles = $styles | resources.PostProcess }}
+{{ end }}
+
+
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" /> 
+
+{{/*  <style type="text/css">{{$styles.Content | safeCSS}}</style>  */}}

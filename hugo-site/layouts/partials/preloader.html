@@ -1,0 +1,122 @@
+{{ if site.Params.preloader.enable }}
+<div class="preloader">
+  <div class="preloader-inner">
+    {{ if site.Params.preloader.spinner }}
+    <div class="spinner">
+      <div class="dot1"></div>
+      <div class="dot2"></div>
+      <div class="dot3"></div>
+    </div>
+    {{ else }}
+    <div class="preloader-logo">
+      {{ if site.Params.logo }}
+      <img src="{{ absURL site.Params.logo }}" alt="{{ site.Title }}" class="img-fluid">
+      {{ else }}
+      <h2>{{ site.Title }}</h2>
+      {{ end }}
+    </div>
+    <div class="loading-bar">
+      <div class="loading-progress"></div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<style>
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: {{ site.Params.preloader.background | default "#ffffff" }};
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.preloader-inner {
+  text-align: center;
+}
+
+.preloader-logo img {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.preloader-logo h2 {
+  color: {{ site.Params.preloader.color | default "#333333" }};
+  margin-bottom: 20px;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loading-progress {
+  height: 100%;
+  background: {{ site.Params.preloader.color | default "#007bff" }};
+  border-radius: 2px;
+  animation: loading 2s infinite;
+}
+
+.spinner {
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 12px;
+  height: 12px;
+  background-color: {{ site.Params.preloader.color | default "#007bff" }};
+  border-radius: 100%;
+  display: inline-block;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .dot1 { animation-delay: -0.32s; }
+.spinner .dot2 { animation-delay: -0.16s; }
+
+@keyframes loading {
+  0% { width: 0; }
+  50% { width: 100%; }
+  100% { width: 0; }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+
+.preloader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const preloader = document.querySelector('.preloader');
+  if (preloader) {
+    setTimeout(function() {
+      preloader.classList.add('loaded');
+      setTimeout(function() {
+        preloader.remove();
+      }, 500);
+    }, {{ site.Params.preloader.duration | default 1500 }});
+  }
+});
+</script>
+{{ end }}

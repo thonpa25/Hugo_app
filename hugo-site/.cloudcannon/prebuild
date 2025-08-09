@@ -1,0 +1,30 @@
+#!/bin/bash
+# CloudCannon prebuild script for Hugo Bigspring theme
+# This script runs before the build process
+
+echo "Starting CloudCannon prebuild process..."
+
+# Install Node.js dependencies if needed
+if [ -f "package.json" ]; then
+    echo "Installing Node.js dependencies..."
+    npm install --production
+fi
+
+# Generate any required theme assets
+echo "Preparing theme assets..."
+
+# Copy theme assets if needed
+if [ -d "themes/bigspring/assets" ]; then
+    echo "Theme assets detected"
+fi
+
+# Ensure required directories exist
+mkdir -p assets/images/blog
+mkdir -p assets/images/services
+mkdir -p assets/images/testimonials
+mkdir -p assets/images/gallery
+
+# Set up Hugo environment
+export HUGO_ENV=production
+
+echo "Prebuild process completed successfully!"

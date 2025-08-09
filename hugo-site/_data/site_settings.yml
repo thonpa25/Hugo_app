@@ -1,0 +1,192 @@
+# Site Settings - Global Configuration
+# Edit these settings to customize your site appearance and behavior
+
+# Site Identity
+branding:
+  logo: "images/logo.png"
+  logo_width: "180px"
+  logo_text: "Your Company"
+  favicon: "images/favicon.png"
+  
+# Navigation
+navigation:
+  # Main navigation button in header
+  button:
+    enable: true
+    label: "Get Started"
+    link: "/contact/"
+  
+  # Mobile menu settings
+  mobile:
+    enable: true
+    breakpoint: "992px"
+
+# Theme Settings
+theme:
+  # Theme switcher (light/dark mode)
+  switcher: true
+  default: "light" # options: light, dark, system
+  
+  # Color scheme
+  colors:
+    primary: "#0AA8A7"
+    secondary: "#376f92"
+    accent: "#ff6b6b"
+    
+  # Typography
+  fonts:
+    primary: "Lato:wght@300;400;500;600;700"
+    secondary: "Roboto:wght@300;400;500;700"
+
+# Footer Content
+footer:
+  # Company information
+  company:
+    name: "Your Company Name"
+    description: "Brief description of your company and what you do"
+    address: "123 Business Street, City, State 12345"
+    phone: "+1 (555) 123-4567"
+    email: "info@yourcompany.com"
+  
+  # Footer sections
+  sections:
+    - title: "Services"
+      links:
+        - name: "Web Development"
+          url: "/services/web-development/"
+        - name: "Mobile Apps"
+          url: "/services/mobile-apps/"
+        - name: "Consulting"
+          url: "/services/consulting/"
+        - name: "Support"
+          url: "/support/"
+          
+    - title: "Company"
+      links:
+        - name: "About Us"
+          url: "/about/"
+        - name: "Our Team"
+          url: "/team/"
+        - name: "Careers"
+          url: "/careers/"
+        - name: "Contact"
+          url: "/contact/"
+          
+    - title: "Resources"
+      links:
+        - name: "Blog"
+          url: "/blog/"
+        - name: "Documentation"
+          url: "/docs/"
+        - name: "FAQ"
+          url: "/faq/"
+        - name: "Support Center"
+          url: "/support/"
+
+  # Copyright
+  copyright: "Copyright © 2024 Your Company Name. All rights reserved."
+
+# Social Media Links
+social:
+  facebook:
+    enable: true
+    url: "https://facebook.com/yourcompany"
+    icon: "fab fa-facebook-f"
+  twitter:
+    enable: true
+    url: "https://twitter.com/yourcompany"
+    icon: "fab fa-twitter"
+  linkedin:
+    enable: true
+    url: "https://linkedin.com/company/yourcompany"
+    icon: "fab fa-linkedin-in"
+  instagram:
+    enable: true
+    url: "https://instagram.com/yourcompany"
+    icon: "fab fa-instagram"
+  github:
+    enable: false
+    url: "https://github.com/yourcompany"
+    icon: "fab fa-github"
+  youtube:
+    enable: false
+    url: "https://youtube.com/yourcompany"
+    icon: "fab fa-youtube"
+
+# Contact Information
+contact:
+  # Contact methods
+  methods:
+    - type: "phone"
+      icon: "fas fa-phone"
+      label: "Phone"
+      value: "+1 (555) 123-4567"
+      link: "tel:+15551234567"
+    - type: "email"
+      icon: "fas fa-envelope"
+      label: "Email"
+      value: "info@yourcompany.com"
+      link: "mailto:info@yourcompany.com"
+    - type: "address"
+      icon: "fas fa-map-marker-alt"
+      label: "Address"
+      value: "123 Business Street, City, State 12345"
+      link: "https://maps.google.com/your-address"
+      
+  # Business hours
+  hours:
+    - day: "Monday - Friday"
+      time: "9:00 AM - 6:00 PM"
+    - day: "Saturday"
+      time: "10:00 AM - 4:00 PM"
+    - day: "Sunday"
+      time: "Closed"
+
+# Forms Configuration
+forms:
+  # Contact form
+  contact:
+    action: "#!" # Replace with your form handler URL
+    method: "POST"
+    success_message: "Thank you for your message! We'll get back to you soon."
+    
+  # Newsletter form
+  newsletter:
+    action: "#!" # Replace with your newsletter service URL
+    method: "POST"
+    success_message: "Successfully subscribed to our newsletter!"
+
+# Analytics & Tracking
+tracking:
+  # Google Analytics
+  google_analytics: ""
+  
+  # Google Tag Manager
+  google_tag_manager: ""
+  
+  # Facebook Pixel
+  facebook_pixel: ""
+
+# SEO Settings
+seo:
+  # Default meta data
+  description: "Your company description for search engines"
+  keywords: ["keyword1", "keyword2", "keyword3"]
+  author: "Your Company Name"
+  
+  # Open Graph / Social sharing
+  image: "images/og-image.jpg"
+  twitter_card: "summary_large_image"
+  twitter_site: "@yourcompany"
+
+# Cookie Consent
+cookies:
+  enable: true
+  message: "This website uses cookies to ensure you get the best experience on our website."
+  button: "Accept"
+  policy_link: "/privacy-policy/"
+
+# Preloader
+preloader:
+  enable: true
+  image: "" # Leave empty for default spinner

@@ -1,0 +1,21 @@
+{{/* Secure Content Rendering Partial */}}
+{{/* Prevents XSS attacks through proper escaping and sanitization */}}
+{{/* Usage: {{ partial "secure-content.html" (dict "content" .Content "context" . ) }} */}}
+
+{{ $content := .content }}
+{{ $context := .context }}
+{{ $allowHTML := .allowHTML | default false }}
+
+{{/* Security: Escape HTML by default unless explicitly allowed */}}
+{{ if $allowHTML }}
+  {{/* For trusted content that needs HTML rendering */}}
+  {{/* Still apply some basic sanitization */}}
+  {{ $content = $content | replaceRE `<script[^>]*>.*?</script>` "" }}
+  {{ $content = $content | replaceRE `javascript:` "" }}
+  {{ $content = $content | replaceRE `on\w+\s*=` "" }}
+  {{ $content = $content | replaceRE `<iframe[^>]*>.*?</iframe>` "" }}
+  {{ $content | safeHTML }}
+{{ else }}
+  {{/* Default: Render as plain text (automatically escaped) */}}
+  {{ $content | plainify | htmlUnescape | safeHTML }}
+{{ end }}

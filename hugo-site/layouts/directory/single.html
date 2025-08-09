@@ -1,0 +1,286 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <!-- Directory Listing Header -->
+    <div class="row mb-5">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-start mb-4">
+          {{ with .Params.images.logo }}
+          <img src="{{ . }}" alt="{{ $.Params.business.name }} logo" class="business-logo me-4">
+          {{ end }}
+          <div>
+            <h1 class="h2 mb-2">{{ .Params.business.name | default .Title }}</h1>
+            <div class="business-meta">
+              {{ with .Params.business.category }}
+              <span class="badge bg-primary me-2">{{ . }}</span>
+              {{ end }}
+              {{ with .Params.business.subcategory }}
+              <span class="badge bg-secondary me-2">{{ . }}</span>
+              {{ end }}
+              {{ if .Params.verified }}
+              <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Verified</span>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Ratings -->
+        {{ with .Params.ratings }}
+        {{ if gt .average 0 }}
+        <div class="ratings mb-4">
+          <div class="stars">
+            {{ range $i := seq 1 5 }}
+              {{ if le $i (int $.Params.ratings.average) }}
+              <i class="fas fa-star text-warning"></i>
+              {{ else }}
+              <i class="far fa-star text-warning"></i>
+              {{ end }}
+            {{ end }}
+            <span class="ms-2">{{ .average }} ({{ .count }} reviews)</span>
+          </div>
+        </div>
+        {{ end }}
+        {{ end }}
+        
+        <!-- Description -->
+        <div class="business-description mb-4">
+          <p class="lead">{{ .Params.business.description }}</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+          {{ .Content }}
+        </div>
+        
+        <!-- Features -->
+        {{ with .Params.features }}
+        <div class="features mt-5">
+          <h3>Features & Amenities</h3>
+          <div class="row g-3 mt-2">
+            {{ range . }}
+            <div class="col-md-6">
+              <div class="feature-item">
+                <i class="fas fa-check-circle text-success me-2"></i>{{ . }}
+              </div>
+            </div>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+        
+        <!-- Gallery -->
+        {{ with .Params.images.gallery }}
+        <div class="gallery mt-5">
+          <h3>Photo Gallery</h3>
+          <div class="row g-3 mt-2">
+            {{ range . }}
+            <div class="col-md-4">
+              <img src="{{ . }}" alt="Gallery image" class="img-fluid rounded">
+            </div>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div class="business-sidebar">
+          <!-- Contact Card -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h4 class="card-title">Contact Information</h4>
+              
+              {{ with .Params.contact.phone }}
+              <div class="contact-item mb-3">
+                <i class="fas fa-phone text-primary me-2"></i>
+                <a href="tel:{{ . }}">{{ . }}</a>
+              </div>
+              {{ end }}
+              
+              {{ with .Params.contact.email }}
+              <div class="contact-item mb-3">
+                <i class="fas fa-envelope text-primary me-2"></i>
+                <a href="mailto:{{ . }}">{{ . }}</a>
+              </div>
+              {{ end }}
+              
+              {{ with .Params.contact.website }}
+              <div class="contact-item mb-3">
+                <i class="fas fa-globe text-primary me-2"></i>
+                <a href="{{ . }}" target="_blank" rel="noopener">Visit Website</a>
+              </div>
+              {{ end }}
+              
+              {{ with .Params.address }}
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                <address class="mb-0">
+                  {{ .street }}<br>
+                  {{ .city }}, {{ .state }} {{ .zip }}<br>
+                  {{ .country }}
+                </address>
+              </div>
+              {{ end }}
+            </div>
+          </div>
+          
+          <!-- Business Hours -->
+          {{ with .Params.hours }}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h4 class="card-title">Business Hours</h4>
+              <table class="table table-sm">
+                <tbody>
+                  <tr><td>Monday</td><td class="text-end">{{ .monday }}</td></tr>
+                  <tr><td>Tuesday</td><td class="text-end">{{ .tuesday }}</td></tr>
+                  <tr><td>Wednesday</td><td class="text-end">{{ .wednesday }}</td></tr>
+                  <tr><td>Thursday</td><td class="text-end">{{ .thursday }}</td></tr>
+                  <tr><td>Friday</td><td class="text-end">{{ .friday }}</td></tr>
+                  <tr><td>Saturday</td><td class="text-end">{{ .saturday }}</td></tr>
+                  <tr><td>Sunday</td><td class="text-end">{{ .sunday }}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {{ end }}
+          
+          <!-- Social Media -->
+          {{ with .Params.social }}
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Follow Us</h4>
+              <div class="social-links">
+                {{ with .facebook }}
+                <a href="{{ . }}" target="_blank" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                  <i class="fab fa-facebook"></i>
+                </a>
+                {{ end }}
+                {{ with .twitter }}
+                <a href="{{ . }}" target="_blank" class="btn btn-outline-info btn-sm me-2 mb-2">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                {{ end }}
+                {{ with .linkedin }}
+                <a href="{{ . }}" target="_blank" class="btn btn-outline-primary btn-sm me-2 mb-2">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+                {{ end }}
+                {{ with .instagram }}
+                <a href="{{ . }}" target="_blank" class="btn btn-outline-danger btn-sm me-2 mb-2">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                {{ end }}
+                {{ with .youtube }}
+                <a href="{{ . }}" target="_blank" class="btn btn-outline-danger btn-sm mb-2">
+                  <i class="fab fa-youtube"></i>
+                </a>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Directory Listing Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{ .Params.business.name }}",
+  "description": "{{ .Params.business.description }}",
+  {{ with .Params.images.logo }}"image": "{{ . | absURL }}",{{ end }}
+  {{ with .Params.contact.phone }}"telephone": "{{ . }}",{{ end }}
+  {{ with .Params.contact.email }}"email": "{{ . }}",{{ end }}
+  {{ with .Params.contact.website }}"url": "{{ . }}",{{ end }}
+  {{ with .Params.address }}
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ .street }}",
+    "addressLocality": "{{ .city }}",
+    "addressRegion": "{{ .state }}",
+    "postalCode": "{{ .zip }}",
+    "addressCountry": "{{ .country }}"
+  },
+  {{ end }}
+  {{ with .Params.ratings }}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ .average }}",
+    "reviewCount": "{{ .count }}"
+  },
+  {{ end }}
+  {{ with .Params.hours }}
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Monday",
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  ],
+  {{ end }}
+  "priceRange": "$$"
+}
+</script>
+
+<style>
+.business-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+}
+
+.business-meta {
+  margin-top: 0.5rem;
+}
+
+.feature-item {
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 0.25rem;
+}
+
+.business-sidebar .card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.contact-item {
+  display: flex;
+  align-items: start;
+}
+
+.contact-item i {
+  margin-top: 0.25rem;
+  width: 20px;
+}
+
+.contact-item address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.social-links .btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 991px) {
+  .business-sidebar {
+    margin-top: 2rem;
+  }
+}
+</style>
+{{ end }}

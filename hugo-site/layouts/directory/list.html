@@ -1,0 +1,278 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <h1 class="text-center mb-3">{{ .Title }}</h1>
+        {{ with .Description }}
+        <p class="lead text-center text-muted">{{ . }}</p>
+        {{ end }}
+      </div>
+    </div>
+    
+    <!-- Filter Bar -->
+    <div class="row mb-4">
+      <div class="col-lg-3 mb-3">
+        <select class="form-select" id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="professional-services">Professional Services</option>
+          <option value="restaurant">Restaurants</option>
+          <option value="retail">Retail</option>
+          <option value="health">Health & Wellness</option>
+          <option value="automotive">Automotive</option>
+        </select>
+      </div>
+      <div class="col-lg-3 mb-3">
+        <select class="form-select" id="sortBy">
+          <option value="name">Sort by Name</option>
+          <option value="rating">Sort by Rating</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+      <div class="col-lg-6 mb-3">
+        <div class="input-group">
+          <input type="text" class="form-control" id="searchBox" placeholder="Search businesses...">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Directory Grid from Data File -->
+    {{ if .Site.Data.directory_example }}
+    <div class="row g-4" id="directoryGrid">
+      {{ range .Site.Data.directory_example.listings }}
+      <div class="col-lg-4 col-md-6 directory-item" 
+           data-category="{{ .category | urlize }}"
+           data-name="{{ .name }}"
+           data-rating="{{ .ratings.average }}">
+        <div class="card h-100">
+          {{ if .featured }}
+          <div class="ribbon">Featured</div>
+          {{ end }}
+          {{ with .images.featured }}
+          <img src="{{ . }}" class="card-img-top" alt="{{ $.name }}">
+          {{ end }}
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">{{ .name }}</h5>
+              {{ if .verified }}
+              <span class="badge bg-success" title="Verified Business">
+                <i class="fas fa-check-circle"></i>
+              </span>
+              {{ end }}
+            </div>
+            
+            <div class="mb-2">
+              <span class="badge bg-primary">{{ .category }}</span>
+              {{ with .subcategory }}
+              <span class="badge bg-secondary">{{ . }}</span>
+              {{ end }}
+            </div>
+            
+            {{ with .ratings }}
+            {{ if gt .average 0 }}
+            <div class="rating mb-2">
+              {{ range $i := seq 1 5 }}
+                {{ if le $i (int $.average) }}
+                <i class="fas fa-star text-warning small"></i>
+                {{ else }}
+                <i class="far fa-star text-warning small"></i>
+                {{ end }}
+              {{ end }}
+              <small class="text-muted">({{ .count }})</small>
+            </div>
+            {{ end }}
+            {{ end }}
+            
+            <p class="card-text small">{{ .description | truncate 100 }}</p>
+            
+            <div class="business-info small text-muted">
+              {{ with .contact.phone }}
+              <div><i class="fas fa-phone me-1"></i> {{ . }}</div>
+              {{ end }}
+              {{ with .address }}
+              <div><i class="fas fa-map-marker-alt me-1"></i> {{ .city }}, {{ .state }}</div>
+              {{ end }}
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <a href="/directory/{{ .id }}/" class="btn btn-sm btn-outline-primary w-100">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    
+    <!-- Directory Grid from Content Pages -->
+    <div class="row g-4" id="directoryGrid">
+      {{ range .Pages }}
+      <div class="col-lg-4 col-md-6 directory-item">
+        <div class="card h-100">
+          {{ if .Params.featured }}
+          <div class="ribbon">Featured</div>
+          {{ end }}
+          {{ with .Params.images.featured }}
+          <img src="{{ . }}" class="card-img-top" alt="{{ $.Title }}">
+          {{ end }}
+          <div class="card-body">
+            <h5 class="card-title">{{ .Title }}</h5>
+            {{ with .Params.business.category }}
+            <span class="badge bg-primary mb-2">{{ . }}</span>
+            {{ end }}
+            <p class="card-text">{{ .Summary | truncate 100 }}</p>
+          </div>
+          <div class="card-footer bg-transparent">
+            <a href="{{ .Permalink }}" class="btn btn-sm btn-outline-primary w-100">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    <!-- No Results Message -->
+    <div class="row d-none" id="noResults">
+      <div class="col-12">
+        <div class="alert alert-info text-center">
+          <i class="fas fa-info-circle me-2"></i>
+          No businesses found matching your criteria.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.directory-item .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.directory-item .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.ribbon {
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  background: #ffc107;
+  color: #000;
+  padding: 5px 40px;
+  transform: rotate(45deg);
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.business-info div {
+  margin-bottom: 0.25rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+#searchBox:focus {
+  border-color: var(--color-primary, #0AA8A7);
+  box-shadow: 0 0 0 0.2rem rgba(10, 168, 167, 0.25);
+}
+
+@media (max-width: 768px) {
+  .card-img-top {
+    height: 150px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  const sortBy = document.getElementById('sortBy');
+  const searchBox = document.getElementById('searchBox');
+  const directoryItems = document.querySelectorAll('.directory-item');
+  const noResults = document.getElementById('noResults');
+  
+  function filterAndSort() {
+    const category = categoryFilter.value;
+    const search = searchBox.value.toLowerCase();
+    const sort = sortBy.value;
+    
+    let visibleItems = [];
+    
+    // Filter items
+    directoryItems.forEach(item => {
+      const itemCategory = item.dataset.category;
+      const itemName = item.dataset.name ? item.dataset.name.toLowerCase() : '';
+      const itemText = item.textContent.toLowerCase();
+      
+      const matchesCategory = !category || itemCategory === category;
+      const matchesSearch = !search || itemName.includes(search) || itemText.includes(search);
+      
+      if (matchesCategory && matchesSearch) {
+        item.style.display = '';
+        visibleItems.push(item);
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Sort visible items
+    if (sort && visibleItems.length > 0) {
+      const grid = document.getElementById('directoryGrid');
+      visibleItems.sort((a, b) => {
+        switch(sort) {
+          case 'name':
+            return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+          case 'rating':
+            return (b.dataset.rating || 0) - (a.dataset.rating || 0);
+          case 'newest':
+            // Would need date data attribute
+            return 0;
+          default:
+            return 0;
+        }
+      });
+      
+      // Reorder DOM elements
+      visibleItems.forEach(item => {
+        grid.appendChild(item);
+      });
+    }
+    
+    // Show/hide no results message
+    if (visibleItems.length === 0) {
+      noResults.classList.remove('d-none');
+    } else {
+      noResults.classList.add('d-none');
+    }
+  }
+  
+  // Add event listeners
+  if (categoryFilter) categoryFilter.addEventListener('change', filterAndSort);
+  if (sortBy) sortBy.addEventListener('change', filterAndSort);
+  if (searchBox) {
+    searchBox.addEventListener('input', filterAndSort);
+    searchBox.addEventListener('keyup', filterAndSort);
+  }
+});
+</script>
+{{ end }}

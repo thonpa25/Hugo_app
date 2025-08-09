@@ -1,0 +1,39 @@
+{{ define "main" }}
+
+<!-- Banner -->
+{{ with .Params.banner }}
+<section class="section pb-0">
+  <div class="container">
+    <div class="row justify-content-between align-items-center">
+      <div class="col-lg-7 text-center text-lg-left">
+        {{ partial "image" (dict "Src" .image "Alt" "banner-image" "Loading" "eager" "Class" "img-fluid" "Size" "520x") }}
+      </div>
+      <div class="col-lg-5 text-center text-lg-left">
+        <h1 class="mb-3">{{ .title | markdownify }}</h1>
+        <p class="mb-4">{{ .content | markdownify }}</p>
+        {{ with .button }}
+        {{ if .enable }}
+        <a href="{{ .link | absURL }}" class="btn btn-primary">{{ .label }}</a>
+        {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+<!-- /Banner -->
+
+<!-- Netlify CMS Script -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
+
+{{ end }}

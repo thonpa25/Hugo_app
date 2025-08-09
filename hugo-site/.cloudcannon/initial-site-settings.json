@@ -1,0 +1,69 @@
+{
+  "ssg": "hugo",
+  "base-url": "/",
+  "collections_config": {
+    "pages": {
+      "path": "content",
+      "output": true,
+      "icon": "description",
+      "_enabled_editors": ["visual", "content", "data"]
+    },
+    "blog": {
+      "path": "content/blog",
+      "output": true,
+      "icon": "article",
+      "_enabled_editors": ["visual", "content", "data"]
+    },
+    "data": {
+      "path": "_data",
+      "output": false,
+      "icon": "settings",
+      "_enabled_editors": ["data"]
+    }
+  },
+  "data_config": {
+    "site_settings": {
+      "path": "_data/site_settings.yml"
+    },
+    "homepage": {
+      "path": "_data/homepage.yml"
+    }
+  },
+  "editor": {
+    "default_path": "/content/_index.md"
+  },
+  "source_editor": {
+    "tab_size": 2,
+    "show_gutter": true,
+    "theme": "monokai"
+  },
+  "_inputs": {
+    "title": {
+      "type": "text",
+      "label": "Page Title"
+    },
+    "description": {
+      "type": "textarea",
+      "label": "Meta Description"
+    },
+    "date": {
+      "type": "datetime",
+      "label": "Publication Date"
+    },
+    "draft": {
+      "type": "checkbox",
+      "label": "Draft"
+    },
+    "featured_image": {
+      "type": "image",
+      "label": "Featured Image"
+    }
+  },
+  "timezone": "Etc/UTC",
+  "generator": {
+    "metadata": {
+      "generator": "CloudCannon",
+      "version": "1.0"
+    }
+  }
+}

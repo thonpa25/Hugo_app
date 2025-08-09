@@ -1,0 +1,23 @@
+{{ with site.Params.counter_analytics }}
+{{ if .enable }}
+<!-- Counter Analytics -->
+<script>
+var counterSettings = {
+  {{ if .endpoint }}endpoint: "{{ .endpoint }}",{{ end }}
+  {{ if .site_id }}siteId: "{{ .site_id }}",{{ end }}
+  {{ if .track_hash }}trackHash: {{ .track_hash }},{{ end }}
+  {{ if .track_params }}trackParams: {{ .track_params }},{{ end }}
+  {{ if .track_offline }}trackOffline: {{ .track_offline }}{{ end }}
+};
+
+(function() {
+  var counter = document.createElement('script');
+  counter.async = true;
+  counter.src = '{{ .script_url | default "/js/counter.js" }}';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(counter, s);
+})();
+</script>
+<!-- End Counter Analytics -->
+{{ end }}
+{{ end }}

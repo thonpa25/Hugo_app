@@ -1,0 +1,32 @@
+{
+  "name": "hugo-site-shell",
+  "version": "1.0.0",
+  "description": "Simple Hugo site shell for client projects",
+  "scripts": {
+    "dev": "hugo server -D",
+    "build": "hugo --minify",
+    "clean": "rm -rf public resources",
+    "deploy": "hugo --minify && netlify deploy --prod --dir=public"
+  },
+  "keywords": [
+    "hugo",
+    "static-site",
+    "bigspring",
+    "netlify",
+    "jamstack"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cli": "^16.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "hugo": ">=0.129.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": ""
+}

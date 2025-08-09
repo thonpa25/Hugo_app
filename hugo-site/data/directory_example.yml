@@ -1,0 +1,96 @@
+# Directory Data Template
+# This file serves as a template for directory listings
+# You can generate multiple entries from spreadsheet data
+
+listings:
+  - id: "business-001"
+    name: "Example Business Name"
+    category: "Professional Services"
+    subcategory: "Consulting"
+    description: "Brief description of the business and its services. This should be compelling and SEO-friendly."
+    address:
+      street: "123 Main Street"
+      city: "Your City"
+      state: "ST"
+      zip: "12345"
+      country: "USA"
+    contact:
+      phone: "+1 (555) 123-4567"
+      email: "contact@example.com"
+      website: "https://www.example.com"
+    hours:
+      monday: "9:00 AM - 5:00 PM"
+      tuesday: "9:00 AM - 5:00 PM"
+      wednesday: "9:00 AM - 5:00 PM"
+      thursday: "9:00 AM - 5:00 PM"
+      friday: "9:00 AM - 5:00 PM"
+      saturday: "10:00 AM - 2:00 PM"
+      sunday: "Closed"
+    social:
+      facebook: "https://facebook.com/example"
+      twitter: "https://twitter.com/example"
+      linkedin: "https://linkedin.com/company/example"
+      instagram: "https://instagram.com/example"
+    features:
+      - "Free Consultation"
+      - "24/7 Support"
+      - "Licensed & Insured"
+    tags:
+      - "consulting"
+      - "professional"
+      - "local business"
+    images:
+      logo: "/images/directory/business-001/logo.jpg"
+      featured: "/images/directory/business-001/featured.jpg"
+      gallery:
+        - "/images/directory/business-001/gallery-1.jpg"
+        - "/images/directory/business-001/gallery-2.jpg"
+    ratings:
+      average: 4.5
+      count: 127
+    verified: true
+    featured: false
+    date_added: "2024-01-15"
+    last_updated: "2024-08-06"
+
+  - id: "business-002"
+    name: "Second Example Business"
+    category: "Restaurant"
+    subcategory: "Italian"
+    description: "Family-owned Italian restaurant serving authentic dishes since 1985."
+    address:
+      street: "456 Oak Avenue"
+      city: "Your City"
+      state: "ST"
+      zip: "12346"
+      country: "USA"
+    contact:
+      phone: "+1 (555) 234-5678"
+      email: "info@restaurant.com"
+      website: "https://www.restaurant-example.com"
+    hours:
+      monday: "Closed"
+      tuesday: "11:00 AM - 10:00 PM"
+      wednesday: "11:00 AM - 10:00 PM"
+      thursday: "11:00 AM - 10:00 PM"
+      friday: "11:00 AM - 11:00 PM"
+      saturday: "11:00 AM - 11:00 PM"
+      sunday: "12:00 PM - 9:00 PM"
+    features:
+      - "Outdoor Seating"
+      - "Delivery Available"
+      - "Reservations Accepted"
+    tags:
+      - "restaurant"
+      - "italian"
+      - "family dining"
+    images:
+      logo: "/images/directory/business-002/logo.jpg"
+      featured: "/images/directory/business-002/featured.jpg"
+    ratings:
+      average: 4.8
+      count: 342
+    verified: true
+    featured: true
+    date_added: "2024-02-20"
+    last_updated: "2024-08-05"

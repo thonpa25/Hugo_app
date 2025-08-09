@@ -1,0 +1,3 @@
+[submodule "themes/bigspring"]
+	path = themes/bigspring
+	url = https://github.com/themefisher/bigspring-light.git

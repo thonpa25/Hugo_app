@@ -1,0 +1,123 @@
+{{ define "main" }}
+<section class="section">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center mb-5">
+          <h1 class="h2 text-primary mb-3">{{ .Title }}</h1>
+          <p class="lead text-muted">{{ .Description }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="row">
+      <div class="col-12">
+        <div class="content">
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Additional Contact Section Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "url": "{{ .Permalink }}",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "{{ .Site.Title }}",
+    {{ with .Params.contact_info.email }}"email": "{{ . }}",{{ end }}
+    {{ with .Params.contact_info.phone }}"telephone": "{{ . }}",{{ end }}
+    {{ with .Params.contact_info.address }}"address": {
+      "@type": "PostalAddress",
+      "streetAddress": "{{ . | replaceRE "\n.*" "" }}",
+      "addressLocality": "Your City",
+      "addressRegion": "ST",
+      "postalCode": "12345",
+      "addressCountry": "US"
+    },{{ end }}
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      {{ with .Params.contact_info.email }}"email": "{{ . }}",{{ end }}
+      {{ with .Params.contact_info.phone }}"telephone": "{{ . }}",{{ end }}
+      "availableLanguage": ["English"]
+    }
+  }
+}
+</script>
+
+<!-- Contact page specific styles -->
+<style>
+.contact-method {
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef !important;
+}
+
+.contact-method:hover {
+  border-color: var(--color-primary, #0AA8A7) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-method i {
+  color: var(--color-primary, #0AA8A7);
+}
+
+.office-info h4,
+.office-info h5 {
+  color: var(--color-secondary, #376f92);
+}
+
+.office-info address {
+  color: #6c757d;
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.social-links .btn {
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.social-links .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.accordion-button {
+  color: var(--color-secondary, #376f92);
+  font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: rgba(10, 168, 167, 0.1);
+  border-color: var(--color-primary, #0AA8A7);
+  color: var(--color-primary, #0AA8A7);
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(10, 168, 167, 0.25);
+}
+
+@media (max-width: 768px) {
+  .contact-method {
+    margin-bottom: 1rem;
+  }
+  
+  .social-links .btn {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    max-width: 200px;
+  }
+}
+</style>
+{{ end }}
