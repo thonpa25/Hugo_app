@@ -1,0 +1,160 @@
+{{/* OpenStreetMap Embed Shortcode - No API key required */}}
+{{/* Usage Examples:
+     {{< openstreet-map address="1600 Amphitheatre Parkway, Mountain View, CA" >}}
+     {{< openstreet-map lat="37.4221" lng="-122.0841" zoom="15" >}}
+     {{< openstreet-map query="restaurants near me" >}}
+*/}}
+
+{{ $address := .Get "address" }}
+{{ $lat := .Get "lat" }}
+{{ $lng := .Get "lng" }}
+{{ $query := .Get "query" }}
+{{ $zoom := .Get "zoom" | default "15" }}
+{{ $width := .Get "width" | default "100%" }}
+{{ $height := .Get "height" | default "400" }}
+{{ $title := .Get "title" | default "Map" }}
+{{ $loading := .Get "loading" | default "lazy" }}
+
+{{/* Default coordinates for New York if nothing specified */}}
+{{ $defaultLat := "40.7589" }}
+{{ $defaultLng := "-73.9851" }}
+
+{{/* Use provided coordinates or defaults */}}
+{{ $finalLat := $lat | default $defaultLat }}
+{{ $finalLng := $lng | default $defaultLng }}
+
+{{/* Build OpenStreetMap iframe URL */}}
+{{ $bbox := "" }}
+{{ if and $lat $lng }}
+  {{ $latFloat := $finalLat | float }}
+  {{ $lngFloat := $finalLng | float }}
+  {{ $offset := 0.01 }}
+  {{ $bbox = printf "?bbox=%f,%f,%f,%f" (sub $lngFloat $offset) (sub $latFloat $offset) (add $lngFloat $offset) (add $latFloat $offset) }}
+{{ else }}
+  {{ $bbox = "?bbox=-74.006,40.712,-73.996,40.722" }}
+{{ end }}
+
+{{ $embedUrl := printf "https://www.openstreetmap.org/export/embed.html%s&layer=mapnik&marker=%s,%s" $bbox $finalLat $finalLng }}
+
+<div class="openstreet-map-container" data-map-config='{{ dict "address" $address "lat" $finalLat "lng" $finalLng "zoom" $zoom | jsonify }}'>
+  
+  <!-- OpenStreetMap Embed -->
+  <iframe
+    class="openstreet-map-embed"
+    width="{{ $width }}"
+    height="{{ $height }}"
+    style="border:0; width: 100%; height: {{ $height }}px; border-radius: 0.5rem;"
+    loading="{{ $loading }}"
+    allowfullscreen
+    src="{{ $embedUrl | safeURL }}"
+    title="{{ $title }}"
+    aria-label="{{ $title }}">
+  </iframe>
+  
+  <!-- Map Info -->
+  <div class="map-overlay mt-2">
+    <small class="text-muted">
+      <i class="fas fa-info-circle me-1"></i>
+      Interactive map powered by OpenStreetMap
+    </small>
+  </div>
+
+  <!-- Direction Links -->
+  <div class="map-actions mt-2">
+    {{ if $address }}
+    <div class="d-grid gap-2 d-sm-flex">
+      <a href="https://www.google.com/maps/search/{{ $address | urlquery }}" 
+         target="_blank" 
+         class="btn btn-primary btn-sm">
+        <i class="fas fa-directions me-1"></i>
+        Get Directions
+      </a>
+      <a href="https://www.openstreetmap.org/search?query={{ $address | urlquery }}" 
+         target="_blank" 
+         class="btn btn-outline-secondary btn-sm">
+        <i class="fas fa-external-link-alt me-1"></i>
+        View on OpenStreetMap
+      </a>
+    </div>
+    {{ else if and $lat $lng }}
+    <div class="d-grid gap-2 d-sm-flex">
+      <a href="https://www.google.com/maps/search/{{ $finalLat }},{{ $finalLng }}" 
+         target="_blank" 
+         class="btn btn-primary btn-sm">
+        <i class="fas fa-directions me-1"></i>
+        Get Directions
+      </a>
+      <a href="https://www.openstreetmap.org/?mlat={{ $finalLat }}&mlon={{ $finalLng }}&zoom={{ $zoom }}" 
+         target="_blank" 
+         class="btn btn-outline-secondary btn-sm">
+        <i class="fas fa-external-link-alt me-1"></i>
+        View on OpenStreetMap
+      </a>
+    </div>
+    {{ end }}
+  </div>
+  
+  <!-- Content from shortcode inner -->
+  {{ with .Inner }}
+  <div class="map-info-panel mt-3">
+    <div class="card">
+      <div class="card-body">
+        {{ . | markdownify }}
+      </div>
+    </div>
+  </div>
+  {{ end }}
+</div>
+
+<!-- Map Styles -->
+<style>
+.openstreet-map-container {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.openstreet-map-embed {
+  display: block;
+  border-radius: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.map-overlay {
+  color: #6c757d;
+}
+
+.map-actions .btn {
+  transition: all 0.3s ease;
+}
+
+.map-actions .btn:hover {
+  transform: translateY(-1px);
+}
+
+.map-info-panel .card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .openstreet-map-container {
+    margin: 1rem 0;
+  }
+  
+  .map-actions .btn {
+    font-size: 0.875rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .openstreet-map-container {
+    border: 2px solid #000;
+  }
+}
+</style>

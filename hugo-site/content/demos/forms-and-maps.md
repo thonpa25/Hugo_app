@@ -1,18 +1,18 @@
 ---
 title: "Forms and Maps Demo"
-description: "Demonstration of contact forms, newsletter signup, and Google Maps integration with various configurations."
+description: "Demonstration of contact forms, newsletter signup, and OpenStreetMap integration with various configurations."
 date: 2024-08-06
 draft: false
 layout: "single"
 
 # SEO
 meta_title: "Contact Forms & Maps Examples - Interactive Demos"
-meta_description: "See live examples of Netlify Forms integration, spam protection, and Google Maps embeds in various styles and configurations."
+meta_description: "See live examples of Netlify Forms integration, spam protection, and OpenStreetMap embeds in various styles and configurations."
 ---
 
-# Contact Forms & Google Maps Integration Demo
+# Contact Forms & Maps Integration Demo
 
-This page demonstrates various contact forms and Google Maps implementations available on this Hugo site.
+This page demonstrates various contact forms and OpenStreetMap implementations available on this Hugo site.
 
 ## Contact Forms
 
@@ -43,43 +43,41 @@ A more detailed form for technical support requests:
 
 ---
 
-## Google Maps Integration
+## OpenStreetMap Integration
 
 ### Basic Map with Address
 
-{{< google-map address="1600 Amphitheatre Parkway, Mountain View, CA" title="Google Headquarters" >}}
+{{< openstreet-map address="1600 Amphitheatre Parkway, Mountain View, CA" title="Google Headquarters" >}}
 This map shows Google's headquarters in Mountain View, California.
-{{< /google-map >}}
+{{< /openstreet-map >}}
 
 ### Map with Coordinates and Custom Zoom
 
-{{< google-map lat="40.7589" lng="-73.9851" zoom="17" title="Times Square, NYC" >}}
+{{< openstreet-map lat="40.7589" lng="-73.9851" zoom="17" title="Times Square, NYC" >}}
 Times Square in New York City, shown with a close-up zoom level for detailed street view.
-{{< /google-map >}}
+{{< /openstreet-map >}}
 
-### Satellite View Map
+### Map with Default View
 
-{{< google-map 
+{{< openstreet-map 
     address="Grand Canyon National Park, Arizona" 
-    style="satellite" 
     zoom="12"
-    title="Grand Canyon - Satellite View" >}}
-Aerial view of the magnificent Grand Canyon National Park.
-{{< /google-map >}}
+    title="Grand Canyon" >}}
+View of the magnificent Grand Canyon National Park.
+{{< /openstreet-map >}}
 
-### Interactive Map with Controls
+### City Map
 
-{{< google-map 
+{{< openstreet-map 
     address="Central Park, New York, NY" 
     zoom="15"
-    show-controls="true"
-    title="Central Park with Map Controls" >}}
-Central Park in Manhattan with interactive controls to switch between map views (roadmap, satellite, terrain).
-{{< /google-map >}}
+    title="Central Park" >}}
+Central Park in Manhattan - a beautiful green space in the heart of the city.
+{{< /openstreet-map >}}
 
 ### Business Location Map
 
-{{< google-map 
+{{< openstreet-map 
     address="123 Business Street, Your City, ST 12345" 
     zoom="16"
     title="Our Office Location" >}}
@@ -95,7 +93,7 @@ We're located in the heart of the business district with easy access to:
 - Monday - Friday: 9:00 AM - 5:00 PM
 - Saturday: 10:00 AM - 2:00 PM
 - Sunday: Closed
-{{< /google-map >}}
+{{< /openstreet-map >}}
 
 ---
 
@@ -138,7 +136,7 @@ Our contact forms include:
 When using these components in CloudCannon:
 
 1. **Contact Forms**: Use the visual editor to insert contact form shortcodes
-2. **Google Maps**: Simply add the map shortcode with your desired address
+2. **OpenStreetMap**: Simply add the map shortcode with your desired address or coordinates
 3. **Customization**: All styling and behavior can be customized through parameters
 
 ### For Developers
