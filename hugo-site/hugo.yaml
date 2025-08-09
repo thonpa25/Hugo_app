@@ -1,0 +1,99 @@
+# Universal Hugo Configuration - Works on BOTH Netlify and CloudCannon
+# NO MODULES - Traditional theme approach only
+
+baseURL: ""  # Auto-set by platforms
+languageCode: "en-us"
+title: "My Hugo Site with Bigspring"
+theme: "bigspring"  # Use original theme name
+
+# Performance
+enableRobotsTXT: true
+enableGitInfo: false
+disableKinds: ["taxonomy", "term"]
+timeout: "30s"
+
+# Markdown
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+# Site parameters
+params:
+  description: "A modern Hugo website with Bigspring theme"
+  author: "Your Name"
+  contact_email: "dan@theonlinepart.com"
+  contact_phone: "+1 (555) 123-4567"
+  
+  # Form settings
+  netlify_forms_enabled: true
+  form_spam_protection: true
+  form_honeypot_enabled: true
+  
+  # Theme variables
+  variables:
+    color_primary: "#0AA8A7"
+    color_secondary: "#376f92"
+    font_primary: "Lato:wght@300;400;500;600;700"
+    font_primary_type: "sans-serif"
+
+# Menus
+menu:
+  main:
+    - name: "Home"
+      url: "/"
+      weight: 10
+    - name: "About"
+      url: "/about/"
+      weight: 20
+    - name: "Contact"
+      url: "/contact/"
+      weight: 30
+    - name: "Demos"
+      url: "/demos/"
+      weight: 40
+      hasChildren: true
+    - name: "Forms & Maps"
+      parent: "Demos"
+      url: "/demos/forms-and-maps/"
+      weight: 41
+    - name: "Video Embeds"
+      parent: "Demos"
+      url: "/demos/video-embeds/"
+      weight: 42
+
+# Outputs
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+  section: ["HTML", "RSS"]
+
+# Sitemap
+sitemap:
+  changefreq: "weekly"
+  filename: "sitemap.xml"
+  priority: 0.5
+
+# Minification
+minify:
+  disableCSS: false
+  disableHTML: false
+  disableJS: false
+  disableJSON: false
+  disableSVG: false
+  disableXML: false
+  minifyOutput: true
+
+# Caching
+caches:
+  getjson:
+    dir: ":cacheDir/:project"
+    maxAge: "10s"
+  getcsv:
+    dir: ":cacheDir/:project"
+    maxAge: "10s"
+  images:
+    dir: ":resourceDir/_gen"
+    maxAge: "720h"
+  assets:
+    dir: ":resourceDir/_gen"
+    maxAge: "720h"

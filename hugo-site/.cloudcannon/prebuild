@@ -1,52 +1,11 @@
 #!/bin/bash
-# CloudCannon prebuild script for Hugo Bigspring theme
-# This script runs before the build process
+# CloudCannon prebuild script - SIMPLIFIED
+echo "Starting CloudCannon prebuild..."
 
-echo "Starting CloudCannon prebuild process..."
-
-# Explicitly set the Hugo theme
-export HUGO_THEME=bigspring-light
-
-# Ensure theme exists with expected name
-if [ -d "themes/bigspring" ] && [ ! -e "themes/bigspring-light" ]; then
-    echo "Creating bigspring-light from bigspring..."
-    cd themes && ln -s bigspring bigspring-light || cp -r bigspring bigspring-light
-    cd ..
-fi
-
-# Check theme directory
-if [ ! -e "themes/bigspring-light" ]; then
-    echo "ERROR: Theme 'bigspring-light' not found in themes directory"
-    echo "Available themes:"
-    ls -la themes/
+# Just verify theme exists - NO MODIFICATIONS
+if [ ! -d "themes/bigspring" ]; then
+    echo "ERROR: Theme 'bigspring' not found!"
     exit 1
-else
-    echo "Theme 'bigspring-light' found successfully"
 fi
 
-# Install Node.js dependencies if needed
-if [ -f "package.json" ]; then
-    echo "Installing Node.js dependencies..."
-    npm install --production
-fi
-
-# Generate any required theme assets
-echo "Preparing theme assets..."
-
-# Copy theme assets if needed
-if [ -d "themes/bigspring/assets" ]; then
-    echo "Theme assets detected"
-fi
-
-# Ensure required directories exist
-mkdir -p assets/images/blog
-mkdir -p assets/images/services
-mkdir -p assets/images/testimonials
-mkdir -p assets/images/gallery
-
-# Set up Hugo environment
-export HUGO_ENV=production
-export HUGO_ENVIRONMENT=production
-
-echo "Prebuild process completed successfully!"
-echo "Using theme: $HUGO_THEME"
+echo "Theme verified. Ready to build."
