@@ -4,6 +4,19 @@
 
 echo "Starting CloudCannon prebuild process..."
 
+# Explicitly set the Hugo theme
+export HUGO_THEME=bigspring
+
+# Check theme directory
+if [ ! -d "themes/bigspring" ]; then
+    echo "ERROR: Theme 'bigspring' not found in themes directory"
+    echo "Available themes:"
+    ls -la themes/
+    exit 1
+else
+    echo "Theme 'bigspring' found successfully"
+fi
+
 # Install Node.js dependencies if needed
 if [ -f "package.json" ]; then
     echo "Installing Node.js dependencies..."
@@ -26,5 +39,7 @@ mkdir -p assets/images/gallery
 
 # Set up Hugo environment
 export HUGO_ENV=production
+export HUGO_ENVIRONMENT=production
 
 echo "Prebuild process completed successfully!"
+echo "Using theme: $HUGO_THEME"
