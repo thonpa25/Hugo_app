@@ -7,13 +7,12 @@ source: .
 
 # Build Configuration for CloudCannon
 build:
-  command: hugo --gc --minify --themesDir themes --theme bigspring
+  command: hugo --gc --minify
   output: public
   environment:
     HUGO_VERSION: 0.129.0
     NODE_VERSION: 18
     HUGO_ENVIRONMENT: production
-    HUGO_THEME: bigspring
     TZ: UTC
 
 # Collections - Define what can be edited

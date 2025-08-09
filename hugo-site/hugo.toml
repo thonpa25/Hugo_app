@@ -2,7 +2,7 @@
 baseURL = ''  # Will be set by Netlify automatically
 languageCode = 'en-us'
 title = 'My Hugo Site with Bigspring'
-theme = 'bigspring'
+theme = 'bigspring-light'
 
 # Performance optimizations
 enableRobotsTXT = true
