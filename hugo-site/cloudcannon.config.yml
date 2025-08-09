@@ -5,6 +5,16 @@
 ssg: hugo
 source: .
 
+# Build Configuration for CloudCannon
+build:
+  command: hugo --gc --minify
+  output: public
+  environment:
+    HUGO_VERSION: 0.129.0
+    NODE_VERSION: 18
+    HUGO_ENVIRONMENT: production
+    TZ: UTC
+
 # Collections - Define what can be edited
 collections_config:
   pages:
