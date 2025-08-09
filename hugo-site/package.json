@@ -13,7 +13,10 @@
     "netlify:login": "netlify login",
     "netlify:link": "netlify link",
     "netlify:status": "netlify status",
-    "netlify:open": "netlify open"
+    "netlify:open": "netlify open",
+    "deploy:cloudcannon": "node scripts/deploy-cloudcannon.js",
+    "sync": "git add -A && git commit -m 'Sync to CloudCannon' && git push origin main",
+    "deploy:all": "npm run deploy:cloudcannon && npm run deploy:manual"
   },
   "keywords": [
     "hugo",
