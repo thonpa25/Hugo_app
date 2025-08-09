@@ -1,8 +1,11 @@
 _schema: _schema
-source: /hugo-site/
+source: hugo-site
 paths:
   uploads: static/uploads
   static: static
+build:
+  command: hugo --gc --minify
+  output: public
 collections_config:
   pages:
     path: ''
