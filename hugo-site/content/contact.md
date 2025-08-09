@@ -21,7 +21,7 @@ contact_form:
 
 # Contact information
 contact_info:
-  email: "dan@theonlinepart.com"
+  email: "info@yourbusiness.com"
   phone: "+1 (555) 123-4567"
   address: |
     123 Business Street
