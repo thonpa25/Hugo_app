@@ -1,0 +1,59 @@
+# Simple Hugo Configuration for CloudCannon
+baseURL = ""
+languageCode = "en-us"
+title = "My Hugo Site with Bigspring"
+theme = "bigspring-light"
+
+# Disable modules completely
+[module]
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "data"
+    target = "data"
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "i18n"
+    target = "i18n"
+  [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+  [[module.mounts]]
+    source = "themes/bigspring-light/static"
+    target = "static"
+  [[module.mounts]]
+    source = "themes/bigspring-light/layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "themes/bigspring-light/data"
+    target = "data"
+  [[module.mounts]]
+    source = "themes/bigspring-light/assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "themes/bigspring-light/i18n"
+    target = "i18n"
+  [[module.mounts]]
+    source = "themes/bigspring-light/archetypes"
+    target = "archetypes"
+
+[params]
+  description = "A modern Hugo website"
+  author = "Your Name"
+
+[minify]
+  disableHTML = false
+  disableCSS = false
+  disableJS = false
+  disableJSON = false
+  disableSVG = false
+  disableXML = false

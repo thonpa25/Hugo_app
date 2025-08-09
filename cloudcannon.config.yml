@@ -5,10 +5,8 @@ paths:
   static: hugo-site/static
 build:
   source: hugo-site
-  command: cd hugo-site && hugo --gc --minify --themesDir themes --theme bigspring-light
+  command: cd hugo-site && hugo --minify
   output: hugo-site/public
-  environment:
-    HUGO_THEME: bigspring-light
 collections_config:
   pages:
     path: ''
