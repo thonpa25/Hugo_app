@@ -1,19 +1,26 @@
-# Universal CloudCannon Configuration
+# Universal CloudCannon Configuration  
 # Works with both CloudCannon and Netlify
+# Enhanced for theme compatibility
 
 source: hugo-site
 
 paths:
-  uploads: static/uploads
-  static: static
+  uploads: hugo-site/static/uploads
+  static: hugo-site/static
 
 build:
-  command: hugo --gc --minify --config hugo.yaml
-  output: public
+  command: cd hugo-site && hugo --gc --minify
+  output: hugo-site/public
   environment:
     HUGO_VERSION: 0.129.0
     HUGO_ENV: production
     HUGO_ENVIRONMENT: production
+    HUGO_THEME: bigspring
+    # Fallback configurations
+    HUGO_MODULE_REPLACEMENTS: "github.com/themefisher/bigspring-light -> ./themes/bigspring"
+    # Additional CloudCannon-specific settings
+    HUGO_CACHEDIR: "/tmp/hugo_cache"
+    HUGO_RESOURCEDIR: "resources"
 
 # Simple collections
 collections_config:
