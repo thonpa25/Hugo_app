@@ -1,0 +1,89 @@
+# CloudCannon-Specific Hugo Configuration
+# Explicit theme configuration for CloudCannon compatibility
+# Handles both bigspring and bigspring-light theme references
+
+baseURL: ""  # Auto-set by CloudCannon
+languageCode: "en-us"  
+title: "My Hugo Site with Bigspring Theme"
+theme: "bigspring"  # Primary theme
+
+# Disable modules completely for CloudCannon
+disableKinds: ["taxonomy", "term"]
+enableRobotsTXT: true
+enableGitInfo: false
+timeout: "30s"
+
+# Performance optimizations for CloudCannon
+canonifyURLs: false
+relativeURLs: false
+uglyURLs: false
+
+# Markdown configuration
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: 'github'
+    lineNos: false
+
+# Site parameters
+params:
+  description: "A modern Hugo website with Bigspring theme - CloudCannon Compatible"
+  author: "Your Name"
+  contact_email: "dan@theonlinepart.com"
+  contact_phone: "+1 (555) 123-4567"
+  
+  # Form settings for CloudCannon
+  cloudcannon_forms_enabled: true
+  form_spam_protection: true
+  form_honeypot_enabled: true
+  
+  # Theme variables
+  variables:
+    color_primary: "#0AA8A7"
+    color_secondary: "#376f92"
+    font_primary: "Lato:wght@300;400;500;600;700"
+    font_primary_type: "sans-serif"
+
+# Menus
+menu:
+  main:
+    - name: "Home"
+      url: "/"
+      weight: 10
+    - name: "About" 
+      url: "/about/"
+      weight: 20
+    - name: "Contact"
+      url: "/contact/"
+      weight: 30
+    - name: "Blog"
+      url: "/blog/"
+      weight: 40
+
+# Output formats
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+  section: ["HTML", "RSS"]
+
+# Sitemap
+sitemap:
+  changefreq: "weekly"
+  filename: "sitemap.xml" 
+  priority: 0.5
+
+# Build settings
+build:
+  writeStats: false
+  noJSConfigInAssets: true
+  useResourceCacheWhen: "fallback"
+
+# Caching for CloudCannon performance
+caches:
+  images:
+    dir: ":resourceDir/_gen"
+    maxAge: "720h"
+  assets:
+    dir: ":resourceDir/_gen" 
+    maxAge: "720h"
