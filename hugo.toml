@@ -1,7 +1,7 @@
 ######################## default configuration ####################
 baseURL = "https://demo.gethugothemes.com/bigspring/site/"
 title = "Bigspring Light"
-theme = "bigspring-light"
+theme = "bigspring"
 # Default time zone for time stamps; use any valid tz database name: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
 timeZone = "America/New_York"
 # post pagination
@@ -20,14 +20,7 @@ ID = '##########' # see https://gohugo.io/templates/internal/#configure-google-a
 
 
 ############################# Modules ############################
-[module]
-[[module.mounts]]
-source = "assets"
-target = "assets"
-
-[[module.mounts]]
-source = "hugo_stats.json"
-target = "assets/watching/hugo_stats.json"
+# Module configuration disabled for CloudCannon compatibility
 
 
 ############################# Build ##############################
