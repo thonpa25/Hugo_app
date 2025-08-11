@@ -1,12 +1,12 @@
-name: Hugo Build and Deploy
+name: Hugo Build and Deploy (Disabled)
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 permissions:
