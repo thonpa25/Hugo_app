@@ -1,0 +1,26 @@
+{
+  "generator": {
+    "name": "hugo",
+    "version": "0.129.0"
+  },
+  "collections": [
+    {
+      "path": "content",
+      "name": "Pages",
+      "output": true
+    },
+    {
+      "path": "content/blog",
+      "name": "Blog",
+      "output": true
+    }
+  ],
+  "editor": {
+    "default_path": "/"
+  },
+  "source": "",
+  "base_url": "/",
+  "data": {
+    "path": "data"
+  }
+}

@@ -1,6 +1,9 @@
 # CloudCannon Configuration for Hugo Site
 # Executed from hugo-site directory
 
+source: ""
+output: public
+
 build:
   command: hugo --gc --minify
   output: public
