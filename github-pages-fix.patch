@@ -1,0 +1,82 @@
+From c7f2e4b8bfc6eaf7546350aed1521bfb8bc9d315 Mon Sep 17 00:00:00 2001
+From: thonpa25 <thonpa.webdev@gmail.com>
+Date: Tue, 12 Aug 2025 01:50:38 +0300
+Subject: [PATCH] Fix GitHub Pages deployment - Correct artifact handling
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- Added proper permissions for GitHub Pages deployment
+- Fixed artifact download in deploy job
+- Removed unnecessary commit step that was causing issues
+- Properly downloads built Hugo site before deployment
+
+This should fix the 404 error on GitHub Pages.
+
+🤖 Generated with Claude Code
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .github/workflows/hugo-build-deploy.yml | 32 ++++++-------------------
+ 1 file changed, 7 insertions(+), 25 deletions(-)
+
+diff --git a/.github/workflows/hugo-build-deploy.yml b/.github/workflows/hugo-build-deploy.yml
+index df50330..75404fb 100644
+--- a/.github/workflows/hugo-build-deploy.yml
++++ b/.github/workflows/hugo-build-deploy.yml
+@@ -47,28 +47,6 @@ jobs:
+           name: hugo-public
+           path: ./hugo-site/public
+           retention-days: 1
+-      
+-      - name: Commit built files to repository
+-        run: |
+-          git config --local user.email "action@github.com"
+-          git config --local user.name "GitHub Action"
+-          
+-          # Remove old public directory if it exists
+-          rm -rf public
+-          
+-          # Copy new build to root public directory
+-          cp -r hugo-site/public .
+-          
+-          # Add and commit
+-          git add public/
+-          git diff --staged --quiet || git commit -m "Build Hugo site - $(date +'%Y-%m-%d %H:%M:%S')"
+-          
+-      - name: Push changes
+-        uses: ad-m/github-push-action@master
+-        with:
+-          github_token: ${{ secrets.GITHUB_TOKEN }}
+-          branch: main
+-          force: false
+   
+   trigger-netlify:
+     needs: build
+@@ -84,16 +62,20 @@ jobs:
+     needs: build
+     runs-on: ubuntu-latest
+     if: github.ref == 'refs/heads/main'
++    permissions:
++      pages: write
++      id-token: write
+     
+     environment:
+       name: github-pages
+       url: ${{ steps.deployment.outputs.page_url }}
+     
+     steps:
+-      - name: Checkout
+-        uses: actions/checkout@v4
++      - name: Download artifact
++        uses: actions/download-artifact@v4
+         with:
+-          ref: main
++          name: hugo-public
++          path: ./public
+       
+       - name: Setup Pages
+         uses: actions/configure-pages@v4
+-- 
+2.49.1.windows.1
+
