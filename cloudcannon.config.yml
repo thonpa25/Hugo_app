@@ -1,18 +1,15 @@
 # CloudCannon Configuration for Hugo Site
-# Executed from repository root
+# Using pre-built files from GitHub Actions
 
 source: hugo-site
-output: hugo-site/public
+output: public
 
+# No build command - using pre-built files from GitHub Actions
+# GitHub Action builds the site and commits to public/ directory
 build:
-  command: cd hugo-site && hugo --gc --minify
-  output: hugo-site/public
-  environment:
-    HUGO_VERSION: 0.129.0
-    HUGO_ENV: production
-    HUGO_ENVIRONMENT: production
-    HUGO_THEME: bigspring
-    HUGO_CACHEDIR: "/tmp/hugo_cache"
+  skip_build: false
+  command: echo "Using pre-built files from GitHub Actions"
+  output: public
 
 # Collections for CloudCannon CMS
 collections_config:

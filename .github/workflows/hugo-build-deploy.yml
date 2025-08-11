@@ -1,0 +1,98 @@
+name: Hugo Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: false  # We removed submodules
+          fetch-depth: 0
+      
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.129.0'
+          extended: true
+      
+      - name: Build Hugo site
+        run: |
+          cd hugo-site
+          hugo --gc --minify --verbose
+      
+      - name: List built files
+        run: |
+          echo "Built files in hugo-site/public:"
+          ls -la hugo-site/public/
+      
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: hugo-public
+          path: ./hugo-site/public
+          retention-days: 1
+      
+      - name: Commit built files to repository
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Remove old public directory if it exists
+          rm -rf public
+          
+          # Copy new build to root public directory
+          cp -r hugo-site/public .
+          
+          # Add and commit
+          git add public/
+          git diff --staged --quiet || git commit -m "Build Hugo site - $(date +'%Y-%m-%d %H:%M:%S')"
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: false
+  
+  deploy-github-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './public'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

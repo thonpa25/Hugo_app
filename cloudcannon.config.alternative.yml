@@ -1,0 +1,43 @@
+# Alternative CloudCannon Configuration for Hugo Site
+# This config attempts to install and use Hugo directly
+
+source: hugo-site
+output: hugo-site/public
+
+build:
+  install: |
+    wget https://github.com/gohugoio/hugo/releases/download/v0.129.0/hugo_extended_0.129.0_Linux-64bit.tar.gz
+    tar -xzf hugo_extended_0.129.0_Linux-64bit.tar.gz
+    mv hugo /usr/local/bin/
+    hugo version
+  command: |
+    cd hugo-site
+    /usr/local/bin/hugo --gc --minify --destination public
+    ls -la public/
+  output: hugo-site/public
+  environment:
+    HUGO_ENV: production
+    HUGO_ENVIRONMENT: production
+
+# Collections for CloudCannon CMS
+collections_config:
+  pages:
+    path: hugo-site/content
+    output: true
+    url: /[slug]/
+    
+  blog:
+    path: hugo-site/content/blog
+    output: true
+    url: /blog/[slug]/
+    
+  data:
+    path: hugo-site/data
+    output: false
+
+paths:
+  uploads: hugo-site/static/uploads
+  static: hugo-site/static
+
+# Basic site settings
+timezone: UTC
