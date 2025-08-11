@@ -1,12 +1,12 @@
-# Universal CloudCannon Configuration  
-# Works with both CloudCannon and Netlify
-# Enhanced for theme compatibility
+# CloudCannon Configuration for Hugo Site
+# Executed from repository root
 
 source: hugo-site
+output: hugo-site/public
 
 build:
-  command: hugo --gc --minify
-  output: public
+  command: cd hugo-site && hugo --gc --minify
+  output: hugo-site/public
   environment:
     HUGO_VERSION: 0.129.0
     HUGO_ENV: production
@@ -14,25 +14,25 @@ build:
     HUGO_THEME: bigspring
     HUGO_CACHEDIR: "/tmp/hugo_cache"
 
-paths:
-  uploads: static/uploads
-  static: static
-
-# Simple collections
+# Collections for CloudCannon CMS
 collections_config:
   pages:
-    path: content
+    path: hugo-site/content
     output: true
     url: /[slug]/
     
   blog:
-    path: content/blog
+    path: hugo-site/content/blog
     output: true
     url: /blog/[slug]/
     
   data:
-    path: data
+    path: hugo-site/data
     output: false
+
+paths:
+  uploads: hugo-site/static/uploads
+  static: hugo-site/static
 
 # Basic site settings
 timezone: UTC
