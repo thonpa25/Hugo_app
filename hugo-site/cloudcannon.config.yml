@@ -1,0 +1,35 @@
+# CloudCannon Configuration for Hugo Site
+# Executed from hugo-site directory
+
+build:
+  command: hugo --gc --minify
+  output: public
+  environment:
+    HUGO_VERSION: 0.129.0
+    HUGO_ENV: production
+    HUGO_ENVIRONMENT: production
+    HUGO_THEME: bigspring
+    HUGO_CACHEDIR: "/tmp/hugo_cache"
+
+# Collections for CloudCannon CMS
+collections_config:
+  pages:
+    path: content
+    output: true
+    url: /[slug]/
+    
+  blog:
+    path: content/blog
+    output: true
+    url: /blog/[slug]/
+    
+  data:
+    path: data
+    output: false
+
+paths:
+  uploads: static/uploads
+  static: static
+
+# Basic site settings
+timezone: UTC
