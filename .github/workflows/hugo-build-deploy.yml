@@ -70,6 +70,16 @@ jobs:
           branch: main
           force: false
   
+  trigger-netlify:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && secrets.NETLIFY_BUILD_HOOK != ''
+    
+    steps:
+      - name: Trigger Netlify Build
+        run: |
+          curl -X POST ${{ secrets.NETLIFY_BUILD_HOOK }}
+  
   deploy-github-pages:
     needs: build
     runs-on: ubuntu-latest

@@ -31,8 +31,8 @@ markup:
 params:
   description: "A modern Hugo website with Bigspring theme - CloudCannon Compatible"
   author: "Your Name"
-  contact_email: "dan@theonlinepart.com"
-  contact_phone: "+1 (555) 123-4567"
+  contact_email: "contact@example.com"
+  contact_phone: "+1 (555) 000-0000"
   
   # Form settings for CloudCannon
   cloudcannon_forms_enabled: true
