@@ -34,7 +34,7 @@ jobs:
       - name: Build Hugo site
         run: |
           cd hugo-site
-          hugo --gc --minify --verbose
+          hugo --gc --minify --baseURL="https://thonpa25.github.io/Hugo_app/"
       
       - name: List built files
         run: |
