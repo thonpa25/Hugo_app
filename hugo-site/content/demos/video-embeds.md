@@ -12,13 +12,13 @@ This page demonstrates how to embed videos from different platforms.
 
 Here's an example YouTube video embed:
 
-{{< youtube w7Ft2ymGmfc >}}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/w7Ft2ymGmfc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Vimeo Video
 
 Example Vimeo embed:
 
-{{< vimeo 146022717 >}}
+<iframe src="https://player.vimeo.com/video/146022717" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 
 ## Local Video
 
