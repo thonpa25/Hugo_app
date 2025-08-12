@@ -1,1 +1,1 @@
-# Rebuild trigger 12 Aug 2025 15:49:04
+# Rebuild trigger for CSS fix - Force baseURL application

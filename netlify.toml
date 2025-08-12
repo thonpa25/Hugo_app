@@ -1,7 +1,7 @@
 [build]
   # Build from hugo-site subdirectory
   base = "hugo-site"
-  command = "hugo --gc --minify --baseURL=https://hugowebapp.netlify.app/"
+  command = "hugo --gc --minify --baseURL=https://hugowebapp.netlify.app/ --environment=netlify"
   publish = "public"
 
   # Hugo version (specify to ensure consistency)
@@ -11,6 +11,7 @@
     GO_VERSION = "1.21.0"
     TZ = "UTC"
     HUGO_ENV = "netlify"
+    HUGO_BASEURL = "https://hugowebapp.netlify.app/"
 
 # Global headers for security and performance
 [[headers]]
