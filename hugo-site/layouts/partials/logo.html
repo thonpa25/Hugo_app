@@ -1,8 +1,0 @@
-{{/* Logo Partial */}}
-<a class="navbar-brand" href="{{ "/" | absURL }}">
-  {{ if .Site.Params.logo }}
-    <img src="{{ .Site.Params.logo | absURL }}" alt="{{ .Site.Title }}" class="img-fluid">
-  {{ else }}
-    <span class="site-title">{{ .Site.Title }}</span>
-  {{ end }}
-</a>
