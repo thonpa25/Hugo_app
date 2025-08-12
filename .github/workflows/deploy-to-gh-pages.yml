@@ -29,6 +29,7 @@ jobs:
         run: |
           cd hugo-site
           hugo --gc --minify --baseURL="https://thonpa25.github.io/Hugo_app/"
+          touch public/.nojekyll
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
