@@ -1,7 +1,7 @@
 [build]
   # Build from hugo-site subdirectory
   base = "hugo-site"
-  command = "hugo --gc --minify"
+  command = "hugo --gc --minify --baseURL https://hugowebapp.netlify.app/"
   publish = "public"
 
   # Hugo version (specify to ensure consistency)

@@ -7,7 +7,7 @@ output: public
 # Build configuration for CloudCannon
 build:
   skip_build: false
-  command: cd hugo-site && hugo --gc --minify --environment production
+  command: cd hugo-site && hugo --gc --minify --baseURL https://guided-wood.cloudvent.net/
   output: hugo-site/public
   environment:
     HUGO_ENV: production

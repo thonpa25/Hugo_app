@@ -1,7 +1,7 @@
 # Universal Hugo Configuration - Works on BOTH Netlify and CloudCannon
 # NO MODULES - Traditional theme approach only
 
-baseURL: "https://thonpa25.github.io/Hugo_app/"  # GitHub Pages URL
+baseURL: "/"  # Relative URLs for multi-platform deployment
 languageCode: "en-us"
 title: "My Hugo Site with Bigspring"
 theme: "bigspring"  # Use original theme name
