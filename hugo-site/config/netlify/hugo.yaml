@@ -1,0 +1,5 @@
+# Netlify environment configuration
+# This overrides the base configuration for Netlify builds
+
+# Netlify production URL
+baseURL: "https://hugowebapp.netlify.app/"

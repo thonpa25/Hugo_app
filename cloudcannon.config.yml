@@ -7,8 +7,10 @@ output: public
 # Build configuration for CloudCannon
 build:
   skip_build: false
-  command: cd hugo-site && hugo --gc --minify
+  command: cd hugo-site && hugo --gc --minify --environment production
   output: hugo-site/public
+  environment:
+    HUGO_ENV: production
 
 # Collections for CloudCannon CMS
 collections_config:

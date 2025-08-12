@@ -1,0 +1,5 @@
+# Production environment configuration
+# This overrides the base configuration for production builds
+
+# CloudCannon production URL
+baseURL: "https://guided-wood.cloudvent.net/"
