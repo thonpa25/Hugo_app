@@ -4,12 +4,11 @@
 source: hugo-site
 output: public
 
-# No build command - using pre-built files from GitHub Actions
-# GitHub Action builds the site and commits to public/ directory
+# Build configuration for CloudCannon
 build:
   skip_build: false
-  command: echo "Using pre-built files from GitHub Actions"
-  output: public
+  command: cd hugo-site && hugo --gc --minify
+  output: hugo-site/public
 
 # Collections for CloudCannon CMS
 collections_config:

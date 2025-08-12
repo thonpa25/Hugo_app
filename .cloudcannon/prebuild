@@ -1,17 +1,30 @@
-#!/bin/bash
-# CloudCannon prebuild script to install Hugo
+#\!/bin/bash
+# CloudCannon prebuild script for Hugo site
 
-echo "Installing Hugo for CloudCannon build..."
+echo "Starting CloudCannon prebuild..."
 
-# Download and install Hugo
-HUGO_VERSION="0.129.0"
-wget -q "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz"
-tar -xzf "hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz"
-chmod +x hugo
-sudo mv hugo /usr/local/bin/
+# Ensure we're in the correct directory
+if [ -d "hugo-site" ]; then
+    echo "Found hugo-site directory"
+else
+    echo "Error: hugo-site directory not found"
+    exit 1
+fi
 
-# Verify installation
-echo "Hugo version:"
-hugo version
+# Check Hugo configuration
+if [ -f "hugo-site/hugo.yaml" ]; then
+    echo "Hugo configuration found"
+else
+    echo "Error: Hugo configuration not found"
+    exit 1
+fi
 
-echo "Hugo installation complete!"
+# Ensure themes directory exists
+if [ -d "hugo-site/themes/bigspring" ]; then
+    echo "Theme directory found"
+else
+    echo "Error: Theme directory not found"
+    exit 1
+fi
+
+echo "Prebuild completed successfully"
