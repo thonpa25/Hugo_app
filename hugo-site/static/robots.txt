@@ -1,5 +1,6 @@
 # Robots.txt for Hugo Site
 # Allow all crawlers
+# Last updated: 2025-01-12
 
 User-agent: *
 Allow: /
