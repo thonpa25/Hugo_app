@@ -1,0 +1,37 @@
+# Netlify _redirects file for Hugo site
+# This file handles URL redirects and rewrites
+
+# Redirect old blog URLs to new structure
+/blog/post-* /blog/:splat 301
+/posts/* /blog/:splat 301
+
+# Handle trailing slashes consistently
+/blog /blog/ 301
+/about /about/ 301
+/contact /contact/ 301
+
+# Redirect common variations
+/home / 301
+/index.html / 301
+
+# Handle legacy URLs (customize based on your needs)
+/old-path/* /new-path/:splat 301
+
+# API routes (if using Netlify Functions)
+/api/* /.netlify/functions/:splat 200
+
+# Fallback for SPA behavior (if needed)
+# /*    /index.html   200
+
+# Force HTTPS
+http://yourdomain.com/* https://yourdomain.com/:splat 301!
+http://www.yourdomain.com/* https://yourdomain.com/:splat 301!
+
+# Handle www subdomain
+https://www.yourdomain.com/* https://yourdomain.com/:splat 301!
+
+# 404 page
+/* /404.html 404
+
+# Rate limiting for specific paths (if needed)
+# /api/* 200 Rate-Limit: 100
